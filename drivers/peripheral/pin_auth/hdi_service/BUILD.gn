@@ -1,0 +1,93 @@
+# Copyright (C) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//drivers/hdf_core/adapter/uhdf2/uhdf.gni")
+
+ohos_shared_library("libpin_auth_interface_service_1.0") {
+  include_dirs = [
+    "service/inc",
+    "adaptor/inc",
+    "common/inc",
+    "database/inc",
+    "main/inc",
+    "//third_party/openssl/include",
+    "//base/useriam/user_auth_framework/common/logs",
+  ]
+  sources = [
+    "adaptor/src/adaptor_algorithm.c",
+    "adaptor/src/adaptor_file.c",
+    "adaptor/src/adaptor_memory.c",
+    "adaptor/src/adaptor_time.c",
+    "adaptor/src/file_operator.c",
+    "common/src/buffer.c",
+    "database/src/pin_db.c",
+    "main/src/pin_auth.cpp",
+    "main/src/pin_func.c",
+    "service/src/executor_impl.cpp",
+    "service/src/pin_auth_interface_service.cpp",
+  ]
+
+  deps = [
+    "//base/useriam/user_auth_framework/common:iam_utils",
+    "//third_party/openssl:libcrypto_shared",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "drivers_interface_pin_auth:pin_auth_idl_headers",
+    "hiviewdfx_hilog_native:libhilog",
+    "init:libbegetutil",
+    "ipc:ipc_single",
+  ]
+
+  install_images = [ chipset_base_dir ]
+  remove_configs = [ "//build/config/compiler:no_exceptions" ]
+  subsystem_name = "hdf"
+  part_name = "drivers_peripheral_pin_auth"
+}
+
+ohos_shared_library("libpin_auth_driver") {
+  include_dirs = [
+    "service/inc",
+    "main/inc",
+    "//base/useriam/user_auth_framework/common/logs",
+  ]
+  sources = [ "service/src/pin_auth_interface_driver.cpp" ]
+  deps = [
+    "//base/useriam/user_auth_framework/common:iam_utils",
+    "//drivers/interface/pin_auth/v1_0:libpin_auth_stub_1.0",
+    "//drivers/peripheral/pin_auth/hdi_service:libpin_auth_interface_service_1.0",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "hdf_core:libhdf_host",
+    "hdf_core:libhdf_ipc_adapter",
+    "hdf_core:libhdi",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_single",
+  ]
+
+  install_images = [ chipset_base_dir ]
+  remove_configs = [ "//build/config/compiler:no_exceptions" ]
+  subsystem_name = "hdf"
+  part_name = "drivers_peripheral_pin_auth"
+}
+
+group("hdf_pin_auth_service") {
+  deps = [
+    ":libpin_auth_driver",
+    ":libpin_auth_interface_service_1.0",
+  ]
+}

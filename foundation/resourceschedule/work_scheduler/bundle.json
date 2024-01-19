@@ -1,0 +1,73 @@
+{
+    "name": "@ohos/work_scheduler",
+    "description": "work scheduler service",
+    "version": "3.1",
+    "license": "Apache License 2.0",
+    "publishAs": "code-segment",
+    "segment": {
+      "destPath" : "foundation/resourceschedule/work_scheduler"
+    },
+    "dirs": {},
+    "scripts": {},
+    "component": {
+      "name": "work_scheduler",
+      "subsystem": "resourceschedule",
+      "syscap": [ "SystemCapability.ResourceSchedule.WorkScheduler" ],
+      "features": [],
+      "adapted_system_type": [
+        "mini",
+        "small",
+        "standard"
+      ],
+      "rom": "2048KB",
+      "ram": "10240KB",
+      "deps": {
+        "components": [
+          "thermal_manager",
+          "netmanager_base",
+          "bundle_framework",
+          "safwk",
+          "jsoncpp",
+          "os_account",
+          "common_event_service",
+          "ipc",
+          "c_utils",
+          "ability_runtime",
+          "hiviewdfx_hilog_native",
+          "samgr",
+          "hisysevent_native",
+          "napi",
+          "battery_manager",
+          "ability_base",
+          "eventhandler",
+          "background_task_mgr"
+        ],
+        "third_party": [ "googletest" ]
+      },
+      "build": {
+        "group_type": {
+          "base_group": [],
+          "fwk_group": [
+            "//foundation/resourceschedule/work_scheduler/interfaces/kits/js:workscheduler",
+            "//foundation/resourceschedule/work_scheduler/frameworks:workschedclient",
+            "//foundation/resourceschedule/work_scheduler/frameworks/extension:workschedextension",
+            "//foundation/resourceschedule/work_scheduler/interfaces/kits/js/napi/work_scheduler_extension:workschedulerextensionability_napi",
+            "//foundation/resourceschedule/work_scheduler/interfaces/kits/js/napi/work_scheduler_extension_context:workschedulerextensioncontext_napi"
+          ],
+          "service_group": [
+            "//foundation/resourceschedule/work_scheduler/services:workschedservice",
+            "//foundation/resourceschedule/work_scheduler/sa_profile:worksched_sa_profile"
+          ]
+        },
+        "inner_kits": [],
+        "test": [
+            "//foundation/resourceschedule/work_scheduler/frameworks/test/unittest:workinfotest",
+            "//foundation/resourceschedule/work_scheduler/interfaces/test/unittest/work_scheduler_jsunittest:js_unittest",
+            "//foundation/resourceschedule/work_scheduler/test/fuzztest/workscheduleservice_fuzzer:fuzztest"
+        ]
+      },
+      "hisysevent_config": [
+        "//foundation/resourceschedule/work_scheduler/hisysevent.yaml"
+      ]
+    }
+}

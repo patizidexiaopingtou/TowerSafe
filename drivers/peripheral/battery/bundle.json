@@ -1,0 +1,45 @@
+{
+  "name": "@ohos/drivers_peripheral_battery",
+  "description": "battery hdf",
+  "version": "3.1",
+  "license": "Apache License 2.0",
+  "publishAs": "code-segment",
+  "segment": {
+    "destPath": "drivers/peripheral/battery"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "drivers_peripheral_battery",
+    "subsystem": "hdf",
+    "syscap": [ "" ],
+    "adapter_system_type": ["standard", "small"],
+    "rom": "600KB",
+    "ram": "7400KB",
+    "deps": {
+      "components": [
+        "base",
+        "hdf_core",
+        "libhilog",
+        "ipc_single"
+      ],
+      "third_party": [
+        "gmock_main",
+        "gtest_main",
+        "jsoncpp"
+      ]
+    },
+    "build": {
+      "sub_component": [
+        "//drivers/peripheral/battery:battery_entry",
+        "//drivers/peripheral/battery/charger:charger_group",
+        "//drivers/peripheral/battery/charger:led_service",
+        "//drivers/peripheral/battery/charger:resources_service"
+      ],
+      "test": [
+        "//drivers/peripheral/battery/interfaces/hdi_service/test:unittest"
+      ],
+      "inner_kits": []
+    }
+  }
+}

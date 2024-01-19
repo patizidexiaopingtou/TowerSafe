@@ -1,0 +1,59 @@
+# Copyright (c) 2022 Diemit <598757652@qq.com>
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//kernel/liteos_m/liteos.gni")
+assert(defined(LOSCFG_DRIVERS_HDF_CONFIG_MACRO), "Must Config LOSCFG_DRIVERS_HDF_CONFIG_MACRO in kernel/liteos_m menuconfig!")
+assert(defined(LOSCFG_DRIVERS_HDF_PLATFORM_SPI), "Must Config LOSCFG_DRIVERS_HDF_PLATFORM_SPI in kernel/liteos_m menuconfig!")
+module_name = get_path_info(rebase_path("."), "name")
+kernel_module(module_name) {
+    sources = [
+        "main.c",
+        "display_sensor_data/screens/ui_Screen1.c",
+        "display_sensor_data/ui.c",
+        "display_sensor_data/ui_helpers.c",
+        "display_sensor_data/ui_control.c",
+    ]
+
+    lv_conf = rebase_path("${device_path}/lvgl/config/lv_conf.h")
+    cflags = [ "-Wno-unused-variable" ]
+    cflags += [ "-Wno-unused-but-set-variable" ]
+    cflags += [ "-Wno-unused-parameter" ]
+    cflags += [ "-DLV_CONF_PATH=${lv_conf}" ]
+    cflags += ["-mlongcalls", "-std=gnu99", "-Os"]
+
+    include_dirs = [
+        "//drivers/hdf_core/framework/include/platform/",
+        "//drivers/hdf_core/framework/include/utils/",
+        "//drivers/hdf_core/framework/support/platform/include/spi",
+        "//drivers/hdf_core/adapter/khdf/liteos_m/osal/include/",
+        "//drivers/hdf_core/framework/include/core/",
+        "//drivers/hdf_core/framework/include/osal/",
+        "${device_path}/drivers/power",
+        "${device_path}/drivers/display",
+        "${device_path}/drivers/adc_test",
+
+        "//foundation/communication/wifi_lite/interfaces/wifiservice",
+        "${device_path}/hals/driver/wifi_lite",
+        "App",
+        "HAL",
+        "display_sensor_data",
+        "//third_party/lvgl",
+        
+
+    ]
+
+    deps = [
+        "App", 
+        "HAL",
+    ]
+}

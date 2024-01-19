@@ -1,0 +1,45 @@
+# Copyright (c) 2022 Diemit <598757652@qq.com>
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+config USE_DIEMIT_APPLICATION
+    bool "use diemit TowerSafe application"
+    default n
+    help
+        This is a switch for use diemit TowerSafe application.
+        If you want to write your application code, please close it.
+
+choice
+        prompt "TowerSafe application choose"
+        depends on USE_DIEMIT_APPLICATION
+        default TowerSafe_APPLICATION_001
+        help
+            This is a choose for application name
+        orsource "*/.application_config"
+endchoice
+
+config DIEMIT_APPLICATION_NAME
+    string
+    depends on USE_DIEMIT_APPLICATION
+    default "base_power" if TOWERSAFE_APPLICATION_001
+    default "base_rtc" if TOWERSAFE_APPLICATION_002
+    default "base_display" if TOWERSAFE_APPLICATION_005
+    default "base_lvgl" if TOWERSAFE_APPLICATION_006
+    default "weather_app" if TOWERSAFE_APPLICATION_009
+    default "dpet" if TOWERSAFE_APPLICATION_010
+    default "101_hdf_adc" if TOWERSAFE_APPLICATION_101
+    default "102_hdf_gpio" if TOWERSAFE_APPLICATION_102
+    default "106_hdf_i2c" if TOWERSAFE_APPLICATION_106
+    default "count_down_app" if TOWERSAFE_APPLICATION_088
+    default "004_system_los_event" if TOWERSAFE_APPLICATION_004
+    default "irrigation_system_app" if TOWERSAFE_APPLICATION_089

@@ -1,0 +1,6 @@
+
+config SOC
+    string
+    default "esp32_s3"
+    depends on SOC_ESP32
+

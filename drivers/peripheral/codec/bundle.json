@@ -1,0 +1,45 @@
+{
+  "name": "@ohos/drivers_peripheral_codec",
+  "description": "codec device driver",
+  "version": "3.1",
+  "license": "Apache License 2.0",
+  "publishAs": "code-segment",
+  "segment": {
+    "destPath": "drivers/peripheral/codec"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "drivers_peripheral_codec",
+    "subsystem": "hdf",
+    "features": [
+      "drivers_peripheral_codec_support_omx",
+      "drivers_peripheral_codec_support_role"
+    ],
+    "syscap": [ "" ],
+    "adapter_system_type": ["standard"],
+    "rom": "675KB",
+    "ram": "7400KB",
+    "deps": {
+      "components": [
+        "hdf_core",
+        "hiviewdfx_hilog_native",
+        "display"
+      ],
+      "third_party": [
+        "googletest",
+        "libdrm"
+      ]
+    },
+    "build": {
+      "sub_component": [
+        "//drivers/peripheral/codec/hdi_service:codec_client",
+        "//drivers/peripheral/codec/hdi_service:codec_service",
+        "//drivers/peripheral/codec:hdf_media_codec"
+      ],
+      "test": [
+        "//drivers/peripheral/codec/test:hdf_test_media_codec"
+      ]
+    }
+  }
+}

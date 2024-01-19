@@ -1,0 +1,213 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//base/startup/appspawn/appspawn.gni")
+import("//build/ohos.gni")
+
+config("appspawn_config") {
+  visibility = [ ":*" ]
+  include_dirs = [
+    "common",
+    "standard",
+    "adapter",
+    "interfaces/innerkits/include",
+    "//commonlibrary/c_utils/base/include",
+    "util/include",
+    "${ability_runtime_path}/interfaces/kits/native/appkit/app",
+    "//base/global/resource_management/interfaces/inner_api/include",
+    "//base/security/access_token/interfaces/innerkits/token_setproc/include",
+    "//base/startup/init/services/log",
+    "//base/startup/init/services/include",
+    "//base/startup/init/services/include/param",
+    "//base/startup/init/services/loopevent/include",
+    "//base/startup/init/interfaces/innerkits/include",
+    "//third_party/json/include",
+    "//base/notification/eventhandler/interfaces/inner_api",
+    "//foundation/communication/ipc/interfaces/innerkits/ipc_core/include",
+    "//foundation/arkui/napi",
+    "//third_party/libuv/include",
+  ]
+
+  if (build_selinux) {
+    cflags = [ "-DWITH_SELINUX" ]
+  }
+}
+
+ohos_executable("appspawn") {
+  sources = [
+    "${appspawn_path}/adapter/appspawn_ace.cpp",
+    "${appspawn_path}/standard/main.c",
+  ]
+  if (asan_detector || is_asan) {
+    defines = [ "ASAN_DETECTOR" ]
+  }
+  configs = [ ":appspawn_config" ]
+  deps = [
+    "${ability_runtime_path}/frameworks/native/appkit:appkit_native",
+    "${appspawn_path}:appspawn_server",
+  ]
+  external_deps = [
+    "ability_base:want",
+    "ability_runtime:app_manager",
+    "ability_runtime:runtime",
+    "c_utils:utils",
+    "hitrace_native:hitrace_meter",
+    "init:libbegetutil",
+  ]
+
+  install_enable = true
+  subsystem_name = "${subsystem_name}"
+  part_name = "${part_name}"
+}
+
+ohos_prebuilt_etc("asan.options") {
+  source = "asan.options"
+  subsystem_name = "${subsystem_name}"
+  part_name = "${part_name}"
+}
+
+ohos_static_library("appspawn_server") {
+  sources = [
+    "${appspawn_path}/adapter/appspawn_adapter.cpp",
+    "${appspawn_path}/adapter/appspawn_sandbox.cpp",
+    "${appspawn_path}/common/appspawn_server.c",
+    "${appspawn_path}/standard/appspawn_process.c",
+    "${appspawn_path}/standard/appspawn_service.c",
+    "${appspawn_path}/util/src/json_utils.cpp",
+    "${appspawn_path}/util/src/sandbox_utils.cpp",
+  ]
+  defines = [
+    "GRAPHIC_PERMISSION_CHECK",
+    "INIT_AGENT",
+    "APPSPAWN_CHECK_GID_UID",
+  ]
+
+  if (asan_detector || is_asan) {
+    defines += [ "ASAN_DETECTOR" ]
+  }
+  configs = [ ":appspawn_config" ]
+  ldflags = [ "-Wl,--dynamic-linker,/system/bin/linker64z" ]
+  deps = [
+    ":asan.options",
+    "//base/security/access_token/interfaces/innerkits/token_setproc:libtoken_setproc",
+    "//base/startup/init/interfaces/innerkits:libbegetutil",
+    "//foundation/communication/netmanager_base/services/netmanagernative/netsys_client:netsys_client",
+  ]
+  external_deps = [
+    "c_utils:utils",
+    "init:libbegetutil",
+  ]
+  if (build_selinux) {
+    external_deps += [ "selinux:libhap_restorecon" ]
+  }
+
+  cflags = []
+  if (build_seccomp) {
+    cflags += [ "-DWITH_SECCOMP" ]
+    external_deps += [ "init:seccomp" ]
+  }
+
+  if (appspawn_report_event) {
+    cflags += [ "-DREPORT_EVENT" ]
+    deps += [ "adapter/sysevent:event_reporter" ]
+  }
+
+  subsystem_name = "${subsystem_name}"
+  part_name = "${part_name}"
+}
+
+ohos_prebuilt_etc("appspawn.rc") {
+  source = "appspawn.cfg"
+  relative_install_dir = "init"
+  subsystem_name = "${subsystem_name}"
+  part_name = "${part_name}"
+}
+
+ohos_static_library("nwebspawn_server") {
+  sources = [
+    "${appspawn_path}/adapter/appspawn_adapter.cpp",
+    "${appspawn_path}/adapter/appspawn_sandbox.cpp",
+    "${appspawn_path}/common/appspawn_server.c",
+    "${appspawn_path}/standard/appspawn_process.c",
+    "${appspawn_path}/standard/appspawn_service.c",
+    "${appspawn_path}/util/src/json_utils.cpp",
+    "${appspawn_path}/util/src/sandbox_utils.cpp",
+  ]
+  defines = [
+    "GRAPHIC_PERMISSION_CHECK",
+    "INIT_AGENT",
+    "NWEB_SPAWN",
+    "APPSPAWN_CHECK_GID_UID",
+  ]
+  configs = [ ":appspawn_config" ]
+  ldflags = [ "-Wl,--dynamic-linker,/system/bin/linker64z" ]
+  deps = [
+    "//base/security/access_token/interfaces/innerkits/token_setproc:libtoken_setproc",
+    "//foundation/communication/netmanager_base/services/netmanagernative/netsys_client:netsys_client",
+  ]
+  external_deps = [
+    "c_utils:utils",
+    "init:libbegetutil",
+  ]
+  if (build_selinux) {
+    external_deps += [ "selinux:libhap_restorecon" ]
+  }
+
+  cflags = []
+  if (build_seccomp) {
+    cflags += [ "-DWITH_SECCOMP" ]
+    external_deps += [ "init:seccomp" ]
+  }
+
+  subsystem_name = "${subsystem_name}"
+  part_name = "${part_name}"
+}
+
+ohos_executable("nwebspawn") {
+  defines = [ "NWEB_SPAWN" ]
+  if (target_cpu == "arm64") {
+    defines += [ "webview_arm64" ]
+  }
+  if (target_cpu == "x86_64") {
+    defines += [ "webview_x86_64" ]
+  }
+  sources = [
+    "${appspawn_path}/adapter/appspawn_nweb.cpp",
+    "${appspawn_path}/standard/main.c",
+    "${appspawn_path}/util/src/json_utils.cpp",
+    "${appspawn_path}/util/src/sandbox_utils.cpp",
+  ]
+  configs = [ ":appspawn_config" ]
+  deps = [ "${appspawn_path}:nwebspawn_server" ]
+
+  install_enable = true
+  subsystem_name = "${subsystem_name}"
+  part_name = "${part_name}"
+}
+
+ohos_prebuilt_etc("nwebspawn.rc") {
+  source = "nwebspawn.cfg"
+  relative_install_dir = "init"
+  subsystem_name = "${subsystem_name}"
+  part_name = "${part_name}"
+}
+
+group("nweb") {
+  deps = []
+  if (appspawn_support_nweb) {
+    deps += [
+      ":nwebspawn",
+      ":nwebspawn.rc",
+    ]
+  }
+}

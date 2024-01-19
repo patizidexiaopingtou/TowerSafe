@@ -1,0 +1,82 @@
+{
+  "subsystems": [
+    {
+      "subsystem": "common",
+      "components": [
+        {
+          "component": "common"
+        }
+      ]
+    },
+    {
+      "subsystem": "hdf",
+      "components": [
+        { "component": "hdf_core" }
+      ]
+    },
+    {
+      "subsystem": "startup",
+      "components": [
+        { "component": "init" }
+      ]
+    },
+    {
+      "subsystem": "communication",
+      "components": [
+        { "component": "dsoftbus" },
+        { "component": "ipc" }
+      ]
+    },
+    {
+      "subsystem": "systemabilitymgr",
+      "components": [
+        { "component": "samgr" },
+        { "component": "safwk" }
+      ]
+    },
+    {
+      "subsystem": "hiviewdfx",
+      "components": [
+        { "component": "hilog_native" },
+        { "component": "hilog_service" },
+        { "component": "hitrace_native" },
+        { "component": "hisysevent_native" },
+        { "component": "hicollie_native" },
+        { "component": "faultloggerd" }
+      ]
+    },
+    {
+      "subsystem": "security",
+      "components": [
+        { "component": "device_auth" },
+        { "component": "access_token" },
+        { "component": "huks" }
+      ]
+    },
+    {
+      "subsystem": "notification",
+      "components": [
+        { "component": "eventhandler" }
+      ]
+    },
+    {
+      "subsystem": "commonlibrary",
+      "components": [
+        { "component": "c_utils" }
+      ]
+    },
+    {
+      "subsystem": "updater",
+      "components": [
+        { "component": "updater" },
+        { "component": "update_service" }
+      ]
+    },
+    {
+      "subsystem": "developtools",
+      "components": [
+        { "component": "syscap_codec" }
+      ]
+    }
+  ]
+} 

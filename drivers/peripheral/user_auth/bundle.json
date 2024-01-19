@@ -1,0 +1,42 @@
+{
+  "name": "@ohos/drivers_peripheral_user_auth",
+  "description": "user_auth device driver",
+  "version": "3.2",
+  "license": "Apache License 2.0",
+  "publishAs": "code-segment",
+  "segment": {
+    "destPath": "drivers/peripheral/user_auth"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "drivers_peripheral_user_auth",
+    "subsystem": "hdf",
+    "syscap": [""],
+    "adapter_system_type": ["standard"],
+    "rom": "675KB",
+    "ram": "7400KB",
+    "deps": {
+      "components": [
+        "ipc",
+        "hdf_core",
+        "hiviewdfx_hilog_native",
+        "c_utils"
+      ],
+      "third_party": [
+        "openssl"
+      ]
+    },
+    "build": {
+      "sub_component": [
+        "//drivers/peripheral/user_auth:user_auth_entry"
+      ],
+      "test": [
+        "//drivers/peripheral/user_auth/test/fuzztest/user_auth:fuzztest",
+        "//drivers/peripheral/user_auth/test/unittest:UserAuthHdiTest"
+      ],
+      "inner_kits": [
+      ]
+    }
+  }
+}

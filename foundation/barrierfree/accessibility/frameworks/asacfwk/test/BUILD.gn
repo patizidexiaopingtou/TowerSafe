@@ -1,0 +1,85 @@
+# Copyright (C) 2022-2023 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/test.gni")
+import("//foundation/barrierfree/accessibility/accessibility_aafwk.gni")
+
+module_output_path = "accessibility/framework_test"
+
+###############################################################################
+config("module_private_config") {
+  visibility = [ ":*" ]
+  cflags = []
+  if (target_cpu == "arm") {
+    cflags += [ "-DBINDER_IPC_32BIT" ]
+  }
+  include_dirs = [
+    "//foundation/barrierfree/accessibility/common/log/include",
+    "//foundation/barrierfree/accessibility/frameworks/aafwk/include",
+    "//foundation/barrierfree/accessibility/frameworks/acfwk/include",
+    "//foundation/barrierfree/accessibility/frameworks/asacfwk/include",
+    "//foundation/barrierfree/accessibility/frameworks/asacfwk/test/mock/include",
+    "//foundation/barrierfree/accessibility/interfaces/innerkits/acfwk/include",
+    "//foundation/barrierfree/accessibility/interfaces/innerkits/asacfwk/include",
+    "//foundation/barrierfree/accessibility/services/test/mock/common",
+  ]
+  defines = [
+    "AAMS_LOG_DOMAIN = 0xD001D05",
+    "AAMS_LOG_TAG = \"accessibility_test\"",
+  ]
+}
+
+ohos_unittest("asac_unit_test") {
+  module_out_path = module_output_path
+  sources = [
+    "../../../services/test/mock/mock_parameter.c",
+    "../src/accessibility_element_operator_impl.cpp",
+    "../src/accessibility_system_ability_client_impl.cpp",
+    "//foundation/barrierfree/accessibility/frameworks/aafwk/src/accessibility_element_operator_callback_impl.cpp",
+    "//foundation/barrierfree/accessibility/services/test/mock/mock_accessible_ability_manager_service_stub.cpp",
+    "//foundation/barrierfree/accessibility/services/test/mock/mock_bundle_manager.cpp",
+    "//foundation/barrierfree/accessibility/services/test/mock/mock_service_registry.cpp",
+    "unittest/accessibility_element_operator_impl_test.cpp",
+    "unittest/accessibility_system_ability_client_impl_test.cpp",
+  ]
+
+  configs = [
+    ":module_private_config",
+    "//foundation/barrierfree/accessibility/resources/config/build:coverage_flags",
+  ]
+
+  deps = [
+    "//foundation/barrierfree/accessibility/common/interface:accessibility_interface",
+    "//foundation/barrierfree/accessibility/interfaces/innerkits/common:accessibility_common",
+    "//third_party/googletest:gmock_main",
+    "//third_party/googletest:gtest_main",
+  ]
+
+  external_deps = [
+    "ability_base:want",
+    "ability_runtime:ability_manager",
+    "c_utils:utils",
+    "eventhandler:libeventhandler",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+  ]
+}
+
+###############################################################################
+group("unittest") {
+  testonly = true
+  deps = []
+
+  deps += [ ":asac_unit_test" ]
+}
+###############################################################################

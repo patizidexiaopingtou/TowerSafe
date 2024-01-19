@@ -1,0 +1,69 @@
+{
+    "name": "@ohos/startup_appspawn",
+    "description": "app start manager",
+    "homePage": "https://gitee.com/openharmony",
+    "version": "3.1",
+    "license": "Apache License 2.0",
+    "repository": "https://gitee.com/openharmony/startup_appspawn",
+    "publishAs": "code-segment",
+    "segment": {
+        "destPath": "base/startup/appspawn"
+    },
+    "dirs": {},
+    "scripts": {},
+    "component": {
+        "name": "appspawn",
+        "subsystem": "startup",
+        "adapted_system_type": [
+            "standard"
+        ],
+        "features": [
+            "appspawn_support_nweb"
+        ],
+        "rom": "",
+        "ram": "",
+        "hisysevent_config": [
+            "//base/startup/appspawn/startup_events.yaml"
+        ],
+        "deps": {
+            "components": [
+                "ability_base",
+                "c_utils",
+                "ipc",
+                "selinux",
+                "hiviewdfx_hilog_native",
+                "init",
+                "ability_runtime",
+                "access_token",
+                "common",
+                "eventhandler"
+            ]
+        },
+        "build": {
+            "sub_component": [
+                "//base/startup/appspawn:appspawn",
+                "//base/startup/appspawn:appspawn.rc",
+                "//base/startup/appspawn:appspawn_server",
+                "//base/startup/appspawn:nweb",
+                "//base/startup/appspawn/etc:etc_files",
+                "//base/startup/appspawn/interfaces/innerkits:appspawn_socket_client"
+            ],
+            "inner_kits": [
+                {
+                    "header": {
+                        "header_base": "//base/startup/appspawn/interfaces/innerkits/include/",
+                        "header_files": [
+                            "appspawn_socket.h",
+                            "client_socket.h"
+                        ]
+                    },
+                    "name": "//base/startup/appspawn/interfaces/innerkits:appspawn_socket_client"
+                }
+            ],
+            "test": [
+                "//base/startup/appspawn/test:moduletest",
+                "//base/startup/appspawn/test/unittest:unittest"
+            ]
+        }
+    }
+}

@@ -1,0 +1,72 @@
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/test.gni")
+import("//foundation/resourceschedule/background_task_mgr/bgtaskmgr.gni")
+
+config("system_test_config") {
+  include_dirs = [ "//third_party/json/include" ]
+
+  configs = []
+}
+
+module_output_path = "background_task_mgr/systemtest"
+ohos_systemtest("BgtaskDumpTest") {
+  module_out_path = module_output_path
+
+  sources = [ "bgtask_dump_test.cpp" ]
+
+  include_dirs = [
+    "//third_party/json/single_include",
+    "//commonlibrary/c_utils/base/include",
+    "//utils/system/safwk/native/include",
+  ]
+
+  cflags = []
+
+  if (target_cpu == "arm") {
+    cflags += [ "-DBINDER_IPC_32BIT" ]
+  }
+
+  deps = [
+    "${bgtaskmgr_services_path}:bgtaskmgr_service",
+    "//third_party/googletest:gtest_main",
+  ]
+
+  external_deps = [
+    "ability_base:want",
+    "ability_base:zuri",
+    "ability_runtime:ability_manager",
+    "ability_runtime:app_manager",
+    "ability_runtime:wantagent_innerkits",
+    "access_token:libaccesstoken_sdk",
+    "bundle_framework:appexecfwk_base",
+    "bundle_framework:appexecfwk_core",
+    "c_utils:utils",
+    "common_event_service:cesfwk_innerkits",
+    "eventhandler:libeventhandler",
+    "hiviewdfx_hilog_native:libhilog",
+    "init:libbegetutil",
+    "ipc:ipc_core",
+    "relational_store:native_rdb",
+    "resource_management:global_resmgr",
+    "safwk:system_ability_fwk",
+    "samgr:samgr_proxy",
+  ]
+}
+
+group("systemtest") {
+  testonly = true
+
+  deps = [ ":BgtaskDumpTest" ]
+}

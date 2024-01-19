@@ -1,0 +1,31 @@
+{
+    "name": "@openharmony/utils_lite",
+    "version": "3.1.0",
+    "license": "Apache License 2.0",
+    "description": "Basic macro and type definitions",
+    "publishAs": "code-segment",
+    "segment": {
+        "destPath": "commonlibrary/utils_lite"
+    },
+    "dirs": {},
+    "scripts": {},
+    "author": {},
+    "repository": "",
+    "component": {
+        "name": "utils_lite",
+        "subsystem": "commonlibrary",
+        "features": [],
+        "adapted_system_type": [
+            "mini",
+            "small"
+        ],
+        "rom": "0KB",
+        "ram": "0KB",
+        "deps": {},
+        "build": {
+            "sub_component": [],
+            "inner_kits": [],
+            "test": []
+        }
+    }
+}

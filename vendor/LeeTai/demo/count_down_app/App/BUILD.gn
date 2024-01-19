@@ -1,0 +1,148 @@
+# Copyright (c) 2022 Diemit <598757652@qq.com>
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/lite/config/component/lite_component.gni")
+
+lite_library("App") {
+    target_type = "static_library"
+    sources = [
+        "App.cpp",
+        "./Common/DataProc/DataProc.cpp",
+        "./Common/DataProc/DP_Clock.cpp",
+        "./Common/DataProc/DP_LIST.inc",
+        "./Common/DataProc/DP_Power.cpp",
+        "./Common/DataProc/DP_Weather.cpp",
+        "./Common/DataProc/DP_WiFi.cpp",
+        "./Pages/AppFactory.cpp",
+        "./Pages/AppFactory.hpp",
+        "./Pages/_Template/Template.cpp",
+        "./Pages/_Template/TemplateModel.cpp",
+        "./Pages/_Template/TemplateView.cpp",
+        "./Pages/StartUp/StartUp.cpp",
+        "./Pages/StartUp/StartUpModel.cpp",
+        "./Pages/StartUp/StartUpView.cpp",
+        "./Pages/StatusBar/StatusBar.cpp",
+        "./Pages/Weather/Weather.cpp",
+        "./Pages/Weather/WeatherModel.cpp",
+        "./Pages/Weather/WeatherView.cpp",
+        "./Resource/ResourcePool.cpp",
+        "./Resource/Font/font_alibabasans_medium_36.c",
+        "./Resource/Font/font_alibabasans_regular_13.c",
+        "./Resource/Font/font_alibabasans_regular_17.c",
+        "./Resource/Font/font_alibabasans_regular_26.c",
+        "./Resource/Font/font_alibabasans_regular_32.c",
+        "./Resource/Font/font_alibabasans_regular_48.c",
+        "./Resource/Font/font_alibabasans_regular_60.c",
+        "./Resource/Image/img_src_alarm.c",
+        "./Resource/Image/img_src_battery.c",
+        "./Resource/Image/img_src_battery_red.c",
+        "./Resource/Image/img_src_location.c",
+        "./Resource/Image/img_src_message.c",
+        "./Resource/Image/img_src_origin_point.c",
+        "./Resource/Image/img_src_pause.c",
+        "./Resource/Image/img_src_sd_card.c",
+        "./Resource/Image/img_src_storage.c",
+        "./Resource/Image/img_src_weather_0.c",
+        "./Resource/Image/img_src_weather_10.c",
+        "./Resource/Image/img_src_weather_11.c",
+        "./Resource/Image/img_src_weather_12.c",
+        "./Resource/Image/img_src_weather_13.c",
+        "./Resource/Image/img_src_weather_14.c",
+        "./Resource/Image/img_src_weather_15.c",
+        "./Resource/Image/img_src_weather_16.c",
+        "./Resource/Image/img_src_weather_17.c",
+        "./Resource/Image/img_src_weather_18.c",
+        "./Resource/Image/img_src_weather_19.c",
+        "./Resource/Image/img_src_weather_1.c",
+        "./Resource/Image/img_src_weather_20.c",
+        "./Resource/Image/img_src_weather_21.c",
+        "./Resource/Image/img_src_weather_22.c",
+        "./Resource/Image/img_src_weather_23.c",
+        "./Resource/Image/img_src_weather_24.c",
+        "./Resource/Image/img_src_weather_25.c",
+        "./Resource/Image/img_src_weather_26.c",
+        "./Resource/Image/img_src_weather_27.c",
+        "./Resource/Image/img_src_weather_28.c",
+        "./Resource/Image/img_src_weather_29.c",
+        "./Resource/Image/img_src_weather_2.c",
+        "./Resource/Image/img_src_weather_30.c",
+        "./Resource/Image/img_src_weather_31.c",
+        "./Resource/Image/img_src_weather_32.c",
+        "./Resource/Image/img_src_weather_33.c",
+        "./Resource/Image/img_src_weather_34.c",
+        "./Resource/Image/img_src_weather_35.c",
+        "./Resource/Image/img_src_weather_36.c",
+        "./Resource/Image/img_src_weather_37.c",
+        "./Resource/Image/img_src_weather_38.c",
+        "./Resource/Image/img_src_weather_3.c",
+        "./Resource/Image/img_src_weather_4.c",
+        "./Resource/Image/img_src_weather_5.c",
+        "./Resource/Image/img_src_weather_6.c",
+        "./Resource/Image/img_src_weather_7.c",
+        "./Resource/Image/img_src_weather_8.c",
+        "./Resource/Image/img_src_weather_99.c",
+        "./Resource/Image/img_src_weather_9.c",
+        "./Resource/Image/img_src_wifi_connect.c",
+        "./Utils/DataCenter/Account.cpp",
+        "./Utils/DataCenter/DataCenter.cpp",
+        "./Utils/DataCenter/PingPongBuffer/PingPongBuffer.c",
+        "./Utils/lv_ext/lv_anim_timeline_wrapper.c",
+        "./Utils/lv_ext/lv_label_anim_effect.c",
+        "./Utils/lv_ext/lv_obj_ext_func.cpp",
+        "./Utils/lv_lib_png/lodepng.c",
+        "./Utils/lv_lib_png/lv_png.c",
+        "./Utils/lv_lib_png/png_decoder_test.c",
+        "./Utils/lv_monkey/lv_monkey.c",
+        "./Utils/lv_poly_line/lv_poly_line.cpp",
+        "./Utils/PageManager/PM_Anim.cpp",
+        "./Utils/PageManager/PM_Base.cpp",
+        "./Utils/PageManager/PM_Drag.cpp",
+        "./Utils/PageManager/PM_Router.cpp",
+        "./Utils/PageManager/PM_State.cpp",
+        "./Utils/PageManager/ResourceManager.cpp",
+        
+    ]
+
+    lv_conf = rebase_path("${device_path}/lvgl/config/lv_conf.h")
+    cflags = [ "-DLV_CONF_PATH=${lv_conf}" ]
+    cflags += [ "-DLV_LVGL_H_INCLUDE_SIMPLE" ]
+    cflags += [ "-DLV_CONF_INCLUDE_SIMPLE" ]
+
+    cflags_cc = [ "-DLV_LVGL_H_INCLUDE_SIMPLE" ]
+    cflags_cc += [ "-DLV_CONF_INCLUDE_SIMPLE" ]
+
+    include_dirs = [
+        "${device_path}/lvgl/config",
+        ".",
+        "./Common/DataProc",
+        "./Common/HAL",
+        "./Config",
+        "./Pages",
+        "./Pages/_Template",
+        "./Pages/StartUp",
+        "./Pages/StatusBar",
+        "./Pages/Weather",
+        "./Resource",
+        "./Utils",
+        "./Utils/DataCenter",
+        "./Utils/DataCenter/PingPongBuffer",
+        "./Utils/Filters",
+        "./Utils/lv_allocator",
+        "./Utils/lv_ext",
+        "./Utils/lv_lib_png",
+        "./Utils/lv_monkey",
+        "./Utils/lv_poly_line",
+        "./Utils/PageManager",
+    ]
+
+}

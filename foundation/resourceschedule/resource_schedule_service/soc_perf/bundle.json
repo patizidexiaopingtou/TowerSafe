@@ -1,0 +1,71 @@
+{
+  "name": "@ohos/resource_schedule_service",
+  "description": "resource schedule service",
+  "version": "3.1",
+  "license": "Apache License 2.0",
+  "publishAs": "code-segment",
+  "segment": {
+    "destPath": "foundation/resourceschedule/resource_schedule_service/soc_perf"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "soc_perf",
+    "subsystem": "resourceschedule",
+    "syscap": [],
+    "features": [],
+    "adapted_system_type": [
+      "mini",
+      "small",
+      "standard"
+    ],
+    "rom": "2048KB",
+    "ram": "10240KB",
+    "deps": {
+      "components": [
+        "safwk",
+        "eventhandler",
+        "ipc",
+        "libxml2",
+        "c_utils",
+        "config_policy",
+        "hitrace_native",
+        "hilog_native",
+        "samgr"
+      ],
+      "third_party": [
+        "xml2"
+      ]
+    },
+    "build": {
+      "group_type": {
+        "base_group" : [
+          "//foundation/resourceschedule/resource_schedule_service/soc_perf:socperf_config",
+          "//foundation/resourceschedule/resource_schedule_service/soc_perf:socperf_test"
+        ],
+        "fwk_group" : [
+          "//foundation/resourceschedule/resource_schedule_service/soc_perf:socperf_client"
+        ],
+        "service_group" : [
+          "//foundation/resourceschedule/resource_schedule_service/soc_perf:socperf_server",
+          "//foundation/resourceschedule/resource_schedule_service/soc_perf:socperf_sa_profile"
+        ]
+      },
+      "inner_kits": [
+        {
+          "header": {
+            "header_base": "//foundation/resourceschedule/resource_schedule_service/soc_perf/include/client",
+            "header_files": [
+              "socperf_client.h"
+            ]
+          },
+          "name": "//foundation/resourceschedule/resource_schedule_service/soc_perf:socperf_client"
+        }
+      ],
+      "test": [
+        "//foundation/resourceschedule/resource_schedule_service/soc_perf/test/unittest:unittest",
+        "//foundation/resourceschedule/resource_schedule_service/soc_perf/test/fuzztest:fuzztest"
+      ]
+    }
+  }
+}

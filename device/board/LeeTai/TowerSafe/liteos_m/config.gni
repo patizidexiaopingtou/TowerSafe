@@ -1,0 +1,47 @@
+
+kernel_type = "liteos_m"
+kernel_version = "3.2.0"
+board_cpu = ""
+board_arch = ""
+board = "esp32d0wdq6"
+board_toolchain = "xtensa-esp32-elf-gcc"
+32-elf/bin/"
+board_toolchain_path = ""
+board_toolchain_prefix = "xtensa-esp32-elf-"
+board_toolchain_type = "gcc"
+board_cflags = [
+  "-mlongcalls",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-fno-common",
+  "-Wdouble-promotion",
+  "-mtext-section-literals",
+  "-DESP32",
+  "-Wno-implicit-function-declaration",
+  "-Wno-sign-conversion",
+  "-Wno-sign-compare",
+  "-W",
+  "-Wshadow",
+  "-ffunction-sections",
+  "-fdata-sections",
+  "-Wno-conversion",
+  "-Wno-unused-parameter",
+  "-Wno-unused-variable",
+  "-Wno-type-limits",
+  "-Wno-cast-function-type",
+  "-Wno-implicit-fallthrough",
+  "-Wno-parentheses",
+  "-Wno-pointer-sign",
+  "-DCONFIG_ESP32_WIFI_CACHE_TX_BUFFER_NUM=5",
+]
+board_cxx_flags = board_cflags
+board_ld_flags = []
+board_include_dirs = [
+  "//commonlibrary/utils_lite/include",
+  "//device/soc/esp/esp32/components/osal/include",
+  "//device/soc/esp/esp32/components/osal/port/xtensa/include",
+]
+board_adapter_dir = "//device/board/${device_company}/common/liteos_m"
+board_configed_sysroot = ""
+storage_type = ""

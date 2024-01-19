@@ -1,0 +1,21 @@
+
+
+if (ohos_kernel_type == "liteos_m") {
+  import("//drivers/hdf_core/adapter/khdf/liteos_m/hdf.gni")
+  macro_switch = defined(LOSCFG_DRIVERS_HDF_CONFIG_MACRO)
+  module_name = get_path_info(rebase_path("."), "name")
+  config("public") {
+    include_dirs = [ "$target_gen_dir" ]
+    include_dirs += [
+      "//device/soc/esp/esp32/components/hal/include/hal",
+      "//device/soc/esp/esp32/components/driver/include",
+    ]
+  }
+  hdf_driver(module_name) {
+    hcs_sources = [ "hdf.hcs" ]
+    special_visibility = [
+      "//device/board/$device_company/$device_name/liteos_m/*",
+      "$board_adapter_dir/*",
+      ]
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "name": "@openharmony/accessibility",
+  "description": "The accessibility framework provides a standard mechanism for exchanging information between applications and assistive applications.",
+  "version": "3.1.0",
+  "repository": "",
+  "license": "Apache License 2.0",
+  "publishAs": "code-segment",
+  "segment": {
+    "destPath": "foundation/barrierfree/accessibility"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "accessibility",
+    "subsystem": "barrierfree",
+    "syscap": [
+      "SystemCapability.BarrierFree.Accessibility.Core",
+      "SystemCapability.BarrierFree.Accessibility.Hearing",
+      "SystemCapability.BarrierFree.Accessibility.Vision"
+    ],
+    "features": [ "accessibility_feature_coverage = false" ],
+    "adapted_system_type": [
+      "standard"
+    ],
+    "rom": "2000KB",
+    "ram": "10000KB",
+    "hisysevent_config": [
+      "//foundation/barrierfree/accessibility/hisysevent.yaml"
+    ],
+    "deps": {
+      "components": [
+        "samgr",
+        "napi",
+        "window_manager",
+        "eventhandler",
+        "input",
+        "c_utils",
+        "common_event_service",
+        "preference",
+        "ability_base",
+        "safwk",
+        "bundle_framework",
+        "hitrace_native",
+        "hiviewdfx_hilog_native",
+        "ipc",
+        "ability_runtime"
+      ],
+      "third_party": []
+    },
+    "build": {
+      "group_type": {
+        "base_group": [
+          "//foundation/barrierfree/accessibility/interfaces/kits/napi:napi_packages"
+        ],
+        "fwk_group": [
+          "//foundation/barrierfree/accessibility/interfaces/innerkits/aafwk:accessibleability",
+          "//foundation/barrierfree/accessibility/interfaces/innerkits/acfwk:accessibilityconfig",
+          "//foundation/barrierfree/accessibility/interfaces/innerkits/asacfwk:accessibilityclient",
+          "//foundation/barrierfree/accessibility/interfaces/innerkits/common:accessibility_common",
+          "//foundation/barrierfree/accessibility/common/interface:accessibility_interface"
+        ],
+        "service_group": [
+          "//foundation/barrierfree/accessibility/sa_profile:aams_sa_profile",
+          "//foundation/barrierfree/accessibility/sa_profile:accessibility_cfg",
+          "//foundation/barrierfree/accessibility/services/aams:accessibleabilityms",
+          "//foundation/barrierfree/accessibility/services/etc:ohos.para.dac"
+        ]
+      },
+      "inner_kits": [
+        {
+          "type": "so",
+          "name": "//foundation/barrierfree/accessibility/interfaces/innerkits/aafwk:accessibleability",
+          "header": {
+            "header_files": [
+              "accessibility_ui_test_ability.h",
+              "accessible_ability_client.h",
+              "accessible_ability_listener.h"
+            ],
+            "header_base": "//foundation/barrierfree/accessibility/interfaces/innerkits/aafwk/include"
+          }
+        },
+        {
+          "type": "so",
+          "name": "//foundation/barrierfree/accessibility/interfaces/innerkits/acfwk:accessibilityconfig",
+          "header": {
+            "header_files": [
+              "accessibility_config.h"
+            ],
+            "header_base": "//foundation/barrierfree/accessibility/interfaces/innerkits/acfwk/include"
+          }
+        },
+        {
+          "type": "so",
+          "name": "//foundation/barrierfree/accessibility/interfaces/innerkits/asacfwk:accessibilityclient",
+          "header": {
+            "header_files": [
+              "accessibility_state_event.h",
+              "accessibility_system_ability_client.h"
+            ],
+            "header_base": "//foundation/barrierfree/accessibility/interfaces/innerkits/asacfwk/include"
+          }
+        },
+        {
+          "type": "so",
+          "name": "//foundation/barrierfree/accessibility/interfaces/innerkits/common:accessibility_common",
+          "header": {
+            "header_files": [
+              "accessibility_ability_info.h",
+              "accessibility_constants.h",
+              "accessibility_def.h",
+              "accessibility_element_info.h",
+              "accessibility_event_info.h",
+              "accessibility_window_info.h"
+            ],
+            "header_base": "//foundation/barrierfree/accessibility/interfaces/innerkits/common/include"
+          }
+        }
+      ],
+      "test": [
+        "//foundation/barrierfree/accessibility/services/test:moduletest",
+        "//foundation/barrierfree/accessibility/services/aams/test:unittest",
+        "//foundation/barrierfree/accessibility/frameworks/aafwk/test:unittest",
+        "//foundation/barrierfree/accessibility/frameworks/acfwk/test:unittest",
+        "//foundation/barrierfree/accessibility/frameworks/asacfwk/test:unittest",
+        "//foundation/barrierfree/accessibility/frameworks/common/test:unittest",
+        "//foundation/barrierfree/accessibility/interfaces/innerkits/test/fuzztest:fuzztest",
+        "//foundation/barrierfree/accessibility/interfaces/innerkits/test/benchmarktest:benchmarktest"
+      ]
+    }
+  }
+}

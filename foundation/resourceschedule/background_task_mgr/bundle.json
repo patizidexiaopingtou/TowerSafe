@@ -1,0 +1,99 @@
+{
+    "name": "@ohos/background_task_mgr",
+    "description": "background task manager service",
+    "version": "3.1",
+    "license": "Apache License 2.0",
+    "publishAs": "code-segment",
+    "segment": {
+      "destPath" : "foundation/resourceschedule/background_task_mgr"
+    },
+    "dirs": {},
+    "scripts": {},
+    "component": {
+      "name": "background_task_mgr",
+      "subsystem": "resourceschedule",
+      "syscap": [ 
+        "SystemCapability.ResourceSchedule.BackgroundTaskManager.ContinuousTask",
+        "SystemCapability.ResourceSchedule.BackgroundTaskManager.TransientTask",
+        "SystemCapability.ResourceSchedule.BackgroundTaskManager.EfficiencyResourcesApply"
+      ],
+      "features": [
+        "background_task_mgr_graphics"
+      ],
+      "adapted_system_type": [
+        "mini",
+        "small",
+        "standard"
+      ],
+      "rom": "2048KB",
+      "ram": "10240KB",
+      "deps": {
+        "components": [
+          "ability_base",
+          "ability_runtime",
+          "access_token",
+          "appexecfwk_standard",
+          "bundle_framework",
+          "common_event_service",
+          "eventhandler",
+          "hitrace_native",
+          "hiviewdfx_hilog_native",
+          "ipc",
+          "init",
+          "napi",
+          "os_account",
+          "resource_management",
+          "safwk",
+          "samgr",
+          "startup_l2",
+          "c_utils"
+        ],
+        "third_party": [ "googletest" ]
+      },
+      "build": {
+        "group_type": {
+          "base_group": [],
+          "fwk_group": [
+           "//foundation/resourceschedule/background_task_mgr/interfaces:bgtaskmgr_interfaces"
+          ],
+          "service_group": [
+           "//foundation/resourceschedule/background_task_mgr/sa_profile:bgtaskmgr_sa_profile",
+           "//foundation/resourceschedule/background_task_mgr/sa_profile:bgtaskmgr_service_init",
+           "//foundation/resourceschedule/background_task_mgr/services:bgtaskmgr_service",
+           "//foundation/resourceschedule/background_task_mgr/resources:bgtaskmgr_resources"
+          ]
+        },
+        "inner_kits": [
+          {
+            "header": {
+              "header_base": "//foundation/resourceschedule/background_task_mgr/interfaces/innerkits/include",
+              "header_files": [
+                "background_mode.h",
+                "background_task_mgr_helper.h",
+                "background_task_subscriber.h",
+                "continuous_task_callback_info.h",
+                "continuous_task_param.h",
+                "delay_suspend_info.h",
+                "efficiency_resource_info.h",
+                "expired_callback.h",
+                "resource_callback_info.h",
+                "resource_type.h",
+                "transient_task_app_info.h"
+              ]
+            },
+            "name": "//foundation/resourceschedule/background_task_mgr/interfaces/innerkits:bgtaskmgr_innerkits"
+          }
+        ],
+        "test": [
+          "//foundation/resourceschedule/background_task_mgr/frameworks/test/unittest:unittest",
+          "//foundation/resourceschedule/background_task_mgr/interfaces/test/unittest/bgtask_manager_client_test:bgtask_client_unit_test",
+          "//foundation/resourceschedule/background_task_mgr/interfaces/test/unittest/continuous_task_jsunittest:js_unittest",
+          "//foundation/resourceschedule/background_task_mgr/interfaces/test/unittest/efficiency_resources_jsunittest:js_unittest",
+          "//foundation/resourceschedule/background_task_mgr/interfaces/test/unittest/transient_task_jsunittest:js_unittest",
+          "//foundation/resourceschedule/background_task_mgr/services/test/unittest:unittest",
+          "//foundation/resourceschedule/background_task_mgr/test/systemtest:systemtest",
+          "//foundation/resourceschedule/background_task_mgr/test/fuzztest/bgtaskonremoterequest_fuzzer:fuzztest"
+        ]
+      }
+    }
+  }

@@ -1,0 +1,76 @@
+# Copyright (c) 2021 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+
+SUBSYSTEM_DIR = "//base/sensors"
+ohos_shared_library("libmiscdevice_service") {
+  sources = [
+    "hdi_connection/adpter/src/compatible_connection.cpp",
+    "hdi_connection/adpter/src/compatible_light_connection.cpp",
+    "hdi_connection/adpter/src/hdi_connection.cpp",
+    "hdi_connection/adpter/src/hdi_light_connection.cpp",
+    "hdi_connection/interface/src/light_hdi_connection.cpp",
+    "hdi_connection/interface/src/vibrator_hdi_connection.cpp",
+    "src/miscdevice_dump.cpp",
+    "src/miscdevice_service.cpp",
+    "src/miscdevice_service_stub.cpp",
+    "src/vibration_priority_manager.cpp",
+    "src/vibrator_thread.cpp",
+  ]
+
+  include_dirs = [
+    "include",
+    "//commonlibrary/c_utils/base/include",
+    "//utils/system/safwk/native/include",
+    "$SUBSYSTEM_DIR/miscdevice/frameworks/native/miscdevice/include",
+    "$SUBSYSTEM_DIR/miscdevice/interfaces/native/light/include",
+    "$SUBSYSTEM_DIR/miscdevice/utils/include",
+    "hdi_connection/adpter/include",
+    "hdi_connection/interface/include",
+    "//third_party/cJSON",
+  ]
+
+  cflags = [ "-Wno-error=inconsistent-missing-override" ]
+  deps = [ "$SUBSYSTEM_DIR/miscdevice/utils:libmiscdevice_utils" ]
+
+  external_deps = [
+    "access_token:libaccesstoken_sdk",
+    "c_utils:utils",
+    "drivers_interface_light:liblight_proxy_1.0",
+    "drivers_interface_vibrator:libvibrator_proxy_1.1",
+    "hisysevent_native:libhisysevent",
+    "hitrace_native:hitrace_meter",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+    "safwk:system_ability_fwk",
+  ]
+
+  part_name = "miscdevice"
+  subsystem_name = "sensors"
+}
+
+ohos_prebuilt_etc("vibration_config") {
+  source = "config/vibration_policy_config.json"
+  install_enable = true
+  install_images = [ "vendor" ]
+  module_install_dir = "etc/vibrator"
+  part_name = "miscdevice"
+}
+
+group("miscdevice_service_target") {
+  deps = [
+    ":libmiscdevice_service",
+    ":vibration_config",
+  ]
+}

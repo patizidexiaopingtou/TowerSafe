@@ -1,0 +1,116 @@
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/filemanagement/storage_service/storage_service_aafwk.gni")
+
+js_declaration("storagestatistics_js") {
+  part_name = "storage_service"
+  sources = [ "./@ohos.file.storageStatistics.d.ts" ]
+}
+
+ohos_shared_library("storagestatistics") {
+  relative_install_dir = "module/file"
+  subsystem_name = "filemanagement"
+  part_name = "storage_service"
+
+  defines = [
+    "STORAGE_LOG_TAG = \"StorageManager\"",
+    "LOG_DOMAIN = 0xD004300",
+  ]
+
+  include_dirs = [
+    "include",
+    "//foundation/filemanagement/storage_service/services/storage_manager/include",
+    "//utils/system/safwk/native/include",
+    "//commonlibrary/c_utils/base/include",
+    "//foundation/filemanagement/file_api/utils/filemgmt_libn/include",
+    "//foundation/filemanagement/storage_service/interfaces/innerkits/storage_manager/native",
+    "//foundation/filemanagement/storage_service/services/common/include",
+    "//foundation/systemabilitymgr/safwk/interfaces/innerkits/safwk",
+  ]
+
+  sources = [
+    "//foundation/filemanagement/storage_service/services/storage_manager/kits_impl/src/storage_manager_connect.cpp",
+    "//foundation/filemanagement/storage_service/services/storage_manager/kits_impl/src/storage_statistics_n_exporter.cpp",
+    "//foundation/filemanagement/storage_service/services/storage_manager/kits_impl/src/storage_statistics_napi.cpp",
+  ]
+
+  deps = [
+    "//foundation/arkui/napi:ace_napi",
+    "//foundation/filemanagement/file_api/utils/filemgmt_libn:filemgmt_libn",
+    "//foundation/filemanagement/storage_service/interfaces/innerkits/storage_manager/native:storage_manager_sa_proxy",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+    "samgr:samgr_proxy",
+  ]
+}
+
+js_declaration("volumemanager_js") {
+  part_name = "storage_service"
+  sources = [ "./@ohos.file.volumeManager.d.ts" ]
+}
+
+ohos_shared_library("volumemanager") {
+  relative_install_dir = "module/file"
+  subsystem_name = "filemanagement"
+  part_name = "storage_service"
+
+  include_dirs = [
+    "include",
+    "//foundation/filemanagement/storage_service/services/storage_manager/include",
+    "//utils/system/safwk/native/include",
+    "//commonlibrary/c_utils/base/include",
+    "//foundation/filemanagement/file_api/utils/filemgmt_libn/include",
+    "//foundation/filemanagement/storage_service/interfaces/innerkits/storage_manager/native",
+    "//foundation/filemanagement/storage_service/services/common/include",
+    "//foundation/systemabilitymgr/safwk/interfaces/innerkits/safwk",
+  ]
+
+  sources = [
+    "//foundation/filemanagement/storage_service/services/storage_manager/kits_impl/src/storage_manager_connect.cpp",
+    "//foundation/filemanagement/storage_service/services/storage_manager/kits_impl/src/volumemanager_n_exporter.cpp",
+    "//foundation/filemanagement/storage_service/services/storage_manager/kits_impl/src/volumemanager_napi.cpp",
+  ]
+
+  defines = [
+    "STORAGE_LOG_TAG = \"StorageManager\"",
+    "LOG_DOMAIN = 0xD004300",
+  ]
+
+  deps = [
+    "//foundation/arkui/napi:ace_napi",
+    "//foundation/filemanagement/file_api/utils/filemgmt_libn:filemgmt_libn",
+    "//foundation/filemanagement/storage_service/interfaces/innerkits/storage_manager/native:storage_manager_sa_proxy",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+    "samgr:samgr_proxy",
+  ]
+}
+
+group("storage_js") {
+  deps = [
+    ":storagestatistics",
+    ":storagestatistics_js",
+    ":volumemanager",
+    ":volumemanager_js",
+  ]
+}

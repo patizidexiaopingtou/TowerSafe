@@ -1,0 +1,44 @@
+{
+  "name": "@ohos/syscap_codec",
+  "description": "System capability encode and decode.",
+  "version": "3.2",
+  "license": "Apache License 2.0",
+  "pubiishAs": "code-segment",
+  "segment": {
+    "destPath": "developtools/syscap_codec"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "syscap_codec",
+    "subsystem": "developtools",
+    "syscap": [ "SystemCapability.Developtools.Syscap" ],
+    "feature": [],
+    "adapted_system_type": [ "small", "standard" ],
+    "deps": {
+      "components": [
+        "napi",
+        "hiviewdfx_hilog_native"
+      ],
+      "third_party": [
+        "bounds_checking_function",
+        "cjson"
+      ]
+    },
+    "build": {
+      "sub_component": [
+        "//developtools/syscap_codec:syscap_codec"
+      ],
+      "inner_kits": [
+        {
+          "header": {
+            "header_base": "//developtools/syscap_codec/interfaces/inner_api",
+            "header_files": [ "syscap_interface.h" ]
+          },
+          "name": "//developtools/syscap_codec:syscap_interface_shared"
+        }
+      ],
+      "test": [ "//developtools/syscap_codec/test/unittest/common:unittest" ]
+    }
+  }
+}

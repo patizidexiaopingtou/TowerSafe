@@ -1,0 +1,44 @@
+{
+    "name": "@ohos/systemabilitymgr_samgr_lite",
+    "description": "system ability manager",
+    "homePage": "https://gitee.com/openharmony",
+    "version": "3.1",
+    "license": "Apache License 2.0",
+    "repository": "https://gitee.com/openharmony/systemabilitymgr_samgr_lite",
+    "publishAs": "code-segment",
+    "segment": {
+        "destPath": "foundation/systemabilitymgr/samgr_lite"
+    },
+    "dirs": {},
+    "scripts": {},
+    "component": {
+        "name": "samgr_lite",
+        "subsystem": "systemabilitymgr",
+        "adapted_system_type": [
+            "small"
+        ],
+        "adapted_kernel": [
+            "liteos_a",
+            "liteos_m",
+            "uniproton",
+            "linux"
+        ],
+        "rom": "62KB",
+        "ram": "",
+        "deps": {
+            "components": [
+                "utils_base",
+                "hilog_lite"
+            ],
+            "third_party": [
+                "bounds_checking_function",
+                "cJSON"
+            ]
+        },
+        "build": {
+            "sub_component": [
+                "//foundation/systemabilitymgr/samgr_lite:samgr"
+            ]
+        }
+    }
+}

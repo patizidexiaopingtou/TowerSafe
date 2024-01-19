@@ -1,0 +1,50 @@
+# Copyright (c) 2021 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#import("//build/config/ohos/rules.gni")
+import("//build/ohos.gni")
+ohos_shared_library("vibrator") {
+  include_dirs = [
+    "//third_party/node/src",
+    "//native_engine",
+    "../native/vibrator/include",
+    "./include",
+    "./vibrator/include",
+    "//commonlibrary/c_utils/base/include",
+    "//base/sensors/miscdevice/utils/include",
+  ]
+  defines = [
+    "APP_LOG_TAG = \"vibratorJs\"",
+    "LOG_DOMAIN = 0xD002700",
+  ]
+
+  sources = [
+    "./vibrator/src/vibrator_js.cpp",
+    "./vibrator/src/vibrator_napi_error.cpp",
+    "./vibrator/src/vibrator_napi_utils.cpp",
+  ]
+
+  deps = [ "//base/sensors/miscdevice/interfaces/native/vibrator:vibrator_interface_native" ]
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "napi:ace_napi",
+  ]
+  relative_install_dir = "module"
+  part_name = "miscdevice"
+  subsystem_name = "sensors"
+}
+
+group("vibrator_js_target") {
+  deps = [ ":vibrator" ]
+}

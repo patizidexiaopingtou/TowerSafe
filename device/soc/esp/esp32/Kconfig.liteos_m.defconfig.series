@@ -1,0 +1,13 @@
+
+
+if SOC_SERIES_ESP32
+
+rsource "Kconfig.liteos_m.defconfig.esp32_u4wdh"
+rsource "Kconfig.liteos_m.defconfig.esp32_d0wdq6"
+rsource "Kconfig.liteos_m.defconfig.esp32_pico"
+rsource "Kconfig.liteos_m.defconfig.esp32_s3"
+config SOC_SERIES
+    string
+    default "esp32_d0wdq6"
+
+endif

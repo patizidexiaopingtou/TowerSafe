@@ -1,0 +1,90 @@
+# Copyright (c) 2023 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("../gn/config.gni")
+config("cli_config") {
+  defines = [
+    "NOGDI",
+  ]
+  cflags = [ "-std=c++17" ]
+}
+ohos_static_library("cli_lite") {
+  configs = [ ":cli_config" ]
+  sources = [
+    "CommandLine.cpp",
+    "CommandLineFactory.cpp",
+    "CommandLineInterface.cpp",
+  ]
+
+  deps = [
+    "../jsapp:jsapp_lite",
+    "../mock:mock_lite",
+    "../util:util_lite",
+    "//foundation/arkui/ace_engine_lite/frameworks/targets/simulator:ace_lite",
+    "//third_party/libwebsockets:websockets_static",
+  ]
+
+  include_dirs = [
+    ".",
+    "../util/",
+    "../jsapp/",
+    "../jsapp/lite/",
+    "//third_party/jsoncpp/include/json/",
+    "//foundation/graphic/ui/frameworks/",
+    "//foundation/graphic/ui/frameworks/dock/",
+    "//foundation/graphic/utils/interfaces/innerkits/",
+    "//foundation/graphic/utils/interfaces/kits/",
+    "//foundation/graphic/ui/interfaces/kits/",
+    "//foundation/graphic/ui/interfaces/innerkits/dock/",
+    "//foundation/graphic/ui/interfaces/innerkits/",
+  ]
+
+  include_dirs += [
+    "../mock/",
+    "../mock/lite/",
+  ]
+
+  cflags = [ "-Wno-deprecated-declarations" ]
+}
+
+ohos_static_library("cli_rich") {
+  configs = [ ":cli_config" ]
+  sources = [
+    "CommandLine.cpp",
+    "CommandLineFactory.cpp",
+    "CommandLineInterface.cpp",
+  ]
+
+  deps = [
+    "../jsapp:jsapp_rich",
+    "../mock:mock_rich",
+    "../util:util_rich",
+    "//third_party/libwebsockets:websockets_static",
+  ]
+
+  include_dirs = [
+    ".",
+    "../util/",
+    "../jsapp/",
+    "../jsapp/rich/",
+    "//third_party/jsoncpp/include/json/",
+  ]
+
+  include_dirs += [
+    "../mock/",
+    "../mock/rich/",
+  ]
+
+  include_dirs += os_include_dirs
+}

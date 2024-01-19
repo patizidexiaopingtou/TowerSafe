@@ -1,0 +1,5 @@
+
+
+group("TowerSafe") {
+    deps = [ "app:app" ]
+}

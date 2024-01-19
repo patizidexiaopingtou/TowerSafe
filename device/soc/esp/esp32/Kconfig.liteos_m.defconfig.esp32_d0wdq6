@@ -1,0 +1,6 @@
+
+config SOC
+    string
+    default "esp32_d0wdq6"
+    depends on SOC_ESP32
+

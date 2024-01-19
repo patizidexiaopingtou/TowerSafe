@@ -1,0 +1,114 @@
+# Copyright (c) 2023 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("../gn/config.gni")
+
+config("myconfig") {
+  cflags = [ "-std=c++17" ]
+}
+
+ohos_static_library("mock_rich") {
+  cflags = [ "-std=c++17" ]
+
+  include_dirs = [
+    ".",
+    "../util/",
+    "../cli/",
+  ]
+  include_dirs += os_include_dirs
+
+  deps = [
+    "../util:util_rich",
+    "//third_party/libjpeg-turbo:turbojpeg_static",
+    "//third_party/libwebsockets:websockets_static",
+  ]
+
+  sources = [
+    "LanguageManager.cpp",
+    "MouseInput.cpp",
+    "MouseWheel.cpp",
+    "KeyInput.cpp",
+    "SystemCapability.cpp",
+    "VirtualMessage.cpp",
+    "VirtualScreen.cpp",
+    "rich/LanguageManagerImpl.cpp",
+    "rich/MouseInputImpl.cpp",
+    "rich/MouseWheelImpl.cpp",
+    "rich/KeyInputImpl.cpp",
+    "rich/VirtualMessageImpl.cpp",
+    "rich/VirtualScreenImpl.cpp",
+  ]
+
+  include_dirs += [
+    "./rich/",
+    "//third_party/jsoncpp/include/json/",
+  ]
+}
+
+ohos_static_library("mock_lite") {
+  configs = [ ":myconfig" ]
+  include_dirs = [
+    ".",
+    "../util/",
+  ]
+
+  deps = [
+    "../util:util_lite",
+    "//base/global/i18n_lite/interfaces/kits/js/builtin:nativeapi_locale_simulator",
+    "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr_simulator",
+    "//base/powermgr/powermgr_lite/interfaces/kits/battery/js/builtin:libnativeapi_battery_simulator",
+    "//base/startup/syspara_lite/simulator:sysparam_simulator",
+    "//foundation/arkui/ace_engine_lite/frameworks/targets/simulator:ace_lite",
+    "//third_party/libjpeg-turbo:turbojpeg_static",
+    "//third_party/libwebsockets:websockets_static",
+    "//commonlibrary/utils_lite/js/builtin/simulator:ace_kit_common_simulator",
+    "//commonlibrary/utils_lite/js/builtin/simulator:ace_kit_deviceinfo_simulator",
+    "//commonlibrary/utils_lite/js/builtin/simulator:ace_kit_file_simulator",
+    "//commonlibrary/utils_lite/js/builtin/simulator:ace_kit_kvstore_simulator",
+  ]
+
+  sources = [
+    "LanguageManager.cpp",
+    "MouseInput.cpp",
+    "MouseWheel.cpp",
+    "KeyInput.cpp",
+    "SystemCapability.cpp",
+    "VirtualMessage.cpp",
+    "VirtualScreen.cpp",
+    "lite/AblityKit.cpp",
+    "lite/AsyncWorkManager.cpp",
+    "lite/BatteryModuleImpl.cpp",
+    "lite/HalSysParam.cpp",
+    "lite/JsAsyncWork.cpp",
+    "lite/LanguageManagerImpl.cpp",
+    "lite/MouseInputImpl.cpp",
+    "lite/MouseWheelImpl.cpp",
+    "lite/KeyInputImpl.cpp",
+    "lite/NativeTimer.cpp",
+    "lite/VirtualMessageImpl.cpp",
+    "lite/VirtualScreenImpl.cpp",
+  ]
+
+  include_dirs += [
+    "./lite/",
+    "//foundation/graphic/ui/interfaces/innerkits/dock/",
+    "//third_party/jsoncpp/include/json/",
+    "//foundation/graphic/ui/interfaces/innerkits/",
+    "//foundation/graphic/ui/frameworks/",
+    "//foundation/graphic/ui/frameworks/dock/",
+    "//foundation/graphic/ui/interfaces/kits/",
+    "//foundation/graphic/utils/interfaces/kits/",
+    "//foundation/graphic/utils/interfaces/innerkits/",
+  ]
+}

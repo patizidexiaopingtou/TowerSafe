@@ -1,0 +1,80 @@
+{
+    "name": "@ohos/device_info_manager",
+    "description": "device profile",
+    "version": "3.1",
+    "publishAs": "code-segment",
+    "segment": {
+      "destPath": "foundation/deviceprofile/device_info_manager"
+    },
+    "dirs": {},
+    "scripts": {},
+    "license": "Apache License 2.0",
+    "component": {
+      "name": "device_info_manager",
+      "subsystem": "deviceprofile",
+      "features": [ "device_info_manager_feature_coverage = false" ],
+      "adapted_system_type": [ "standard" ],
+      "hisysevent_config":[
+        "//foundation/deviceprofile/device_info_manager/hisysevent.yaml"
+      ],
+      "rom": "",
+      "ram": "",
+      "deps": {
+        "components": [
+          "c_utils",
+          "hisysevent_native",
+          "startup_l2",
+          "hiviewdfx_hilog_native",
+          "ipc",
+          "syscap_codec",
+          "access_token",
+          "device_auth",
+          "samgr",
+          "distributeddatamgr",
+          "hitrace_native",
+          "eventhandler",
+          "safwk",
+          "dsoftbus",
+          "dmsfwk"
+        ],
+        "third_party": [
+          "json"
+        ]
+      },
+      "build": {
+        "group_type": {
+          "base_group": [],
+          "fwk_group": [
+            "//foundation/deviceprofile/device_info_manager/interfaces/innerkits/core:distributed_device_profile_client"
+          ],
+          "service_group": [
+            "//foundation/deviceprofile/device_info_manager/permission:authority_json",
+            "//foundation/deviceprofile/device_info_manager/sa_profile:dps_sa_profile",
+            "//foundation/deviceprofile/device_info_manager/services/core:distributed_device_profile"
+          ]
+        },
+        "inner_kits": [
+          {
+            "name": "//foundation/deviceprofile/device_info_manager/interfaces/innerkits/core:distributed_device_profile_client",
+            "header": {
+              "header_files": [
+                "distributed_device_profile_client.h",
+                "distributed_device_profile_proxy.h",
+                "idistributed_device_profile.h",
+                "iprofile_event_callback.h",
+                "profile_change_notification.h",
+                "profile_event.h",
+                "service_characteristic_profile.h",
+                "subscribe_info.h"
+              ],
+              "header_base": "//foundation/deviceprofile/device_info_manager/interfaces/innerkits/core/include/"
+            }
+          }
+        ],
+        "test": [
+          "//foundation/deviceprofile/device_info_manager/services/core:unittest",
+          "//foundation/deviceprofile/device_info_manager/services/core/test/fuzztest/deviceprofile_fuzzer:fuzztest"
+        ]
+      }
+    }
+  }

@@ -1,0 +1,19 @@
+
+if (ohos_kernel_type == "liteos_m") {
+  import("//kernel/liteos_m/liteos.gni")
+  module_name = get_path_info(rebase_path("."), "name")
+  module_group(module_name) {
+    modules = ["common"]
+    if (defined(LOSCFG_BOARD_TowerSafe)) {
+      modules += ["TowerSafe"]
+    }
+    if (defined(LOSCFG_BOARD_M5EPD)) {
+      modules += ["m5epd"]
+    }
+    if (defined(LOSCFG_BOARD_M5STICKC_PLUS)) {
+      modules += ["m5stickc_plus"]
+    }
+    print("-------------modules: $modules ------------")
+  }
+}
+

@@ -1,0 +1,127 @@
+# Copyright (c) Huawei Technologies Co., Ltd. 2021. All rights reserved.
+
+import("../camera.gni")
+
+if (defined(ohos_lite)) {
+  import("//build/ohos.gni")
+  config("buffer_manager_config") {
+    visibility = [ ":*" ]
+    cflags = [
+      "-DGST_DISABLE_DEPRECATED",
+      "-DHAVE_CONFIG_H",
+    ]
+
+    cflags_cc = [ "-std=c++17" ]
+    ldflags = [ "-Wl" ]
+    ldflags += [ "--coverage" ]
+  }
+
+  ohos_shared_library("camera_buffer_manager") {
+    sources = [
+      "src/buffer_adapter/lite/buffer_adapter.cpp",
+      "src/buffer_allocator.cpp",
+      "src/buffer_allocator_factory.cpp",
+      "src/buffer_allocator_utils.cpp",
+      "src/buffer_loop_tracking.cpp",
+      "src/buffer_manager.cpp",
+      "src/buffer_pool.cpp",
+      "src/buffer_tracking.cpp",
+      "src/heap_buffer_allocator/heap_buffer_allocator.cpp",
+      "src/image_buffer.cpp",
+    ]
+
+    include_dirs = [
+      "include",
+      "$camera_path/include",
+      "src/buffer_adapter/lite",
+      "//commonlibrary/utils_lite/include",
+      "//base/hiviewdfx/interfaces/innerkits/libhilog/include",
+      "//drivers/peripheral/display/interfaces/include",
+      "//drivers/peripheral/base",
+      "//drivers/hdf_core/framework/include/utils",
+      "//drivers/hdf_core/adapter/uhdf2/osal/include",
+    ]
+
+    libs = []
+    defines = []
+    deps = [
+      "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
+      "//foundation/graphic/surface:surface",
+    ]
+    external_deps = [ "drivers_peripheral_display:hdi_display" ]
+
+    public_configs = [ ":buffer_manager_config" ]
+    subsystem_name = "hdf"
+    part_name = "drivers_peripheral_camera"
+  }
+} else {
+  import("//build/ohos.gni")
+  config("buffer_manager_config") {
+    visibility = [ ":*" ]
+
+    cflags = [
+      "-DGST_DISABLE_DEPRECATED",
+      "-DHAVE_CONFIG_H",
+    ]
+
+    ldflags = [ "-Wl" ]
+
+    if (enable_camera_device_utest) {
+      cflags += [
+        "-fprofile-arcs",
+        "-ftest-coverage",
+      ]
+
+      ldflags += [ "--coverage" ]
+    }
+  }
+
+  ohos_shared_library("camera_buffer_manager") {
+    sources = [
+      "src/buffer_adapter/standard/buffer_adapter.cpp",
+      "src/buffer_allocator.cpp",
+      "src/buffer_allocator_factory.cpp",
+      "src/buffer_allocator_utils.cpp",
+      "src/buffer_loop_tracking.cpp",
+      "src/buffer_manager.cpp",
+      "src/buffer_pool.cpp",
+      "src/buffer_tracking.cpp",
+      "src/gralloc_buffer_allocator/gralloc_buffer_allocator.cpp",
+      "src/heap_buffer_allocator/heap_buffer_allocator.cpp",
+      "src/image_buffer.cpp",
+    ]
+
+    include_dirs = [
+      "include",
+      "src/buffer_adapter/standard",
+      "$camera_path/include",
+      "//drivers/peripheral/camera/interfaces/metadata/include",
+      "//drivers/hdf_core/framework/include/utils",
+      "//drivers/hdf_core/adapter/uhdf2/osal/include",
+    ]
+
+    libs = []
+
+    defines = []
+
+    if (enable_camera_device_utest) {
+      defines += [ "CAMERA_DEVICE_UTEST" ]
+    }
+
+    if (is_standard_system) {
+      external_deps = [
+        "c_utils:utils",
+        "drivers_peripheral_display:hdi_display_gralloc",
+        "graphic_chipsetsdk:surface",
+        "hiviewdfx_hilog_native:libhilog",
+      ]
+    } else {
+      external_deps = [ "hilog:libhilog" ]
+    }
+
+    public_configs = [ ":buffer_manager_config" ]
+    install_images = [ chipset_base_dir ]
+    subsystem_name = "hdf"
+    part_name = "drivers_peripheral_camera"
+  }
+}

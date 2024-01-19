@@ -1,0 +1,60 @@
+{
+    "name": "@ohos/app_file_service",
+    "description": "App file service provides sharing and file management for apps",
+    "optional": "false",
+    "version": "3.1",
+    "license": "Apache License 2.0",
+    "publishAs": "code-segment",
+    "segment": {
+        "destPath": "foundation/filemanagement/app_file_service"
+    },
+    "dirs": {},
+    "scripts": {},
+    "component": {
+        "name": "app_file_service",
+        "subsystem": "filemanagement",
+        "syscap": [
+            "SystemCapability.FileManagement.AppFileService"
+        ],
+        "adapted_system_type": [
+            "standard"
+        ],
+        "rom": "",
+        "ram": "",
+        "build": {
+            "group_type": {
+                "base_group": [],
+                "fwk_group": [
+                    "//foundation/filemanagement/app_file_service:libremotefileshare",
+                    "//foundation/filemanagement/app_file_service/interfaces/kits/js:fileshare",
+                    "//foundation/filemanagement/app_file_service/interfaces/kits/js:fileuri"
+                ],
+                "service_group": []
+            },
+            "inner_kits": [
+                {
+                    "name": "//foundation/filemanagement/app_file_service/interfaces/innerkits/native/file_share:fileshare_native",
+                    "header": {
+                      "header_files": [
+                        "file_share.h"
+                      ],
+                      "header_base": "//foundation/filemanagement/app_file_service/interfaces/innerkits/native/file_share/include"
+                    }
+                },
+                {
+                    "name": "//foundation/filemanagement/app_file_service/interfaces/innerkits/remote_file_share/native:remote_file_share_native",
+                    "header": {
+                      "header_files": [
+                        "remote_file_share.h"
+                      ],
+                      "header_base": "//foundation/filemanagement/app_file_service/interfaces/innerkits/remote_file_share/native"
+                    }
+                }
+            ],
+            "test": [
+                "//foundation/filemanagement/app_file_service/test/fuzztest:fuzztest",
+                "//foundation/filemanagement/app_file_service/test/unittest:unittest"
+            ]
+        }
+    }
+}

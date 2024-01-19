@@ -1,0 +1,36 @@
+{
+  "name": "@ohos/commonlibrary_memory_utils",
+  "version": "3.1.0",
+  "description": "memory base libraries",
+  "publishAs": "source",
+  "scripts": {},
+  "author": {},
+  "repository": "",
+  "license": "Apache License 2.0",
+  "segment": {
+    "destPath": "commonlibrary/memory_utils"
+  },
+  "component": {
+    "name": "memory_utils",
+    "subsystem": "commonlibrary",
+    "adapted_system_type": [ "standard" ],
+    "deps": {
+      "components": [
+        "c_utils",
+        "hiviewdfx_hilog_native"
+      ],
+      "third_party": []
+    },
+    "build": {
+      "sub_component": [
+          "//commonlibrary/memory_utils/libdmabufheap:libdmabufheap",
+          "//commonlibrary/memory_utils/libpurgeablemem:libpurgeablemem"
+      ],
+      "inner_kits": [],
+      "test": [
+          "//commonlibrary/memory_utils/libdmabufheap/test:unittest",
+          "//commonlibrary/memory_utils/libpurgeablemem/test:libpurgeablemem_test"
+      ]
+    }
+  }
+}

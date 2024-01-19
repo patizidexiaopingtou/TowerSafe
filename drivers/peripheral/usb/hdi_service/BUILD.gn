@@ -1,0 +1,115 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//drivers/hdf_core/adapter/uhdf2/uhdf.gni")
+import("//drivers/peripheral/usb/usb.gni")
+
+config("usbd_private_config") {
+  include_dirs = []
+}
+
+config("usbd_public_config") {
+  include_dirs = [
+    "${usb_driver_path}/hdi_service/include",
+    "${usb_driver_path}/ddk/host/include",
+    "${usb_driver_path}/interfaces/ddk/host",
+    "${usb_driver_path}/interfaces/ddk/common",
+    "${usb_driver_path}/gadget/function/include",
+    "//drivers/hdf_core/framework/model/usb/include",
+    "${usb_driver_path}/hdi_service",
+    "${usb_driver_path}/interfaces/ddk/common/include",
+    "${usb_driver_path}/interfaces/ddk/device",
+    "${default_config_path}",
+  ]
+}
+
+ohos_shared_library("libusb_interface_service_1.0") {
+  sources = [
+    "src/usb_impl.cpp",
+    "src/usbd_dispatcher.cpp",
+    "src/usbd_function.cpp",
+    "src/usbd_load_usb_service.cpp",
+    "src/usbd_port.cpp",
+  ]
+
+  configs = [ ":usbd_private_config" ]
+
+  public_configs = [ ":usbd_public_config" ]
+
+  deps = [
+    "${usb_driver_path}/ddk:libusb_ddk_host",
+    "${usb_driver_path}/ddk:libusb_pnp_manager",
+  ]
+
+  if (is_standard_system) {
+    external_deps = [
+      "c_utils:utils",
+      "drivers_interface_usb:usb_idl_headers",
+      "hdf_core:libhdf_utils",
+      "hdf_core:libhdi",
+      "hiviewdfx_hilog_native:libhilog",
+      "init:libbegetutil",
+      "ipc:ipc_single",
+      "samgr:samgr_proxy",
+    ]
+  } else {
+    external_deps = [
+      "hilog:libhilog",
+      "ipc:ipc_single",
+    ]
+  }
+
+  install_images = [ chipset_base_dir ]
+  subsystem_name = "hdf"
+  part_name = "drivers_peripheral_usb"
+}
+
+ohos_shared_library("libusb_driver") {
+  sources = [ "src/usb_interface_driver.cpp" ]
+
+  public_deps = [
+    ":libusb_interface_service_1.0",
+    "//drivers/interface/usb/v1_0:libusb_stub_1.0",
+  ]
+
+  configs = [ ":usbd_private_config" ]
+
+  public_configs = [ ":usbd_public_config" ]
+
+  if (is_standard_system) {
+    external_deps = [
+      "c_utils:utils",
+      "hdf_core:libhdf_ipc_adapter",
+      "hdf_core:libhdi",
+      "hiviewdfx_hilog_native:libhilog",
+      "ipc:ipc_single",
+    ]
+  } else {
+    external_deps = [
+      "hilog:libhilog",
+      "ipc:ipc_single",
+    ]
+  }
+
+  install_images = [ chipset_base_dir ]
+  subsystem_name = "hdf"
+  part_name = "drivers_peripheral_usb"
+}
+
+group("hdi_usb_service") {
+  deps = [
+    ":libusb_driver",
+    ":libusb_interface_service_1.0",
+  ]
+}

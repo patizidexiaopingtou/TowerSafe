@@ -1,0 +1,71 @@
+# Copyright (c) 2023 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("../gn/config.gni")
+config("jsapp_config") {
+  cflags = [
+    "-std=c++17",
+    "-Wall",
+    "-Wno-deprecated-declarations",
+  ]
+  cflags_cc = cflags
+}
+
+ohos_static_library("jsapp_rich") {
+  configs = [ ":jsapp_config" ]
+  sources = [
+    "JsApp.cpp",
+    "rich/JsAppImpl.cpp",
+  ]
+  include_dirs = [
+    ".",
+    "rich/",
+    "../mock/rich/",
+    "../util/",
+    "../mock/",
+    "//third_party/jsoncpp/include/json/",
+  ]
+  include_dirs += os_include_dirs
+  deps = [ "//third_party/libwebsockets:websockets_static" ]
+}
+
+ohos_static_library("jsapp_lite") {
+  configs = [ ":jsapp_config" ]
+  sources = [
+    "JsApp.cpp",
+    "lite/JsAppImpl.cpp",
+    "lite/TimerTaskHandler.cpp",
+    "lite/ui_text_language.cpp",
+  ]
+  include_dirs = [
+    ".",
+    "lite/",
+    "../mock/lite/",
+    "../util/",
+    "../mock/",
+    "../cli",
+    "//third_party/jsoncpp/include/json/",
+    "//foundation/graphic/ui/interfaces/innerkits/",
+    "//foundation/graphic/ui/interfaces/kits/",
+    "//foundation/graphic/utils/interfaces/innerkits/",
+    "//foundation/graphic/utils/interfaces/kits/",
+    "//foundation/graphic/ui/frameworks/",
+    "//foundation/graphic/ui/frameworks/dock/",
+    "//foundation/graphic/ui/interfaces/innerkits/dock/",
+  ]
+  deps = [
+    "//foundation/arkui/ace_engine_lite/frameworks/targets/simulator:ace_lite",
+    "//third_party/libwebsockets:websockets_static",
+  ]
+}

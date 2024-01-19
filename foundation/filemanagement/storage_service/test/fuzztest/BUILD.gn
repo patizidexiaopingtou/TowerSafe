@@ -1,0 +1,31 @@
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+group("storage_service_fuzztest") {
+  testonly = true
+  deps = [
+    # deps file
+    "//foundation/filemanagement/storage_service/test/fuzztest/bundlestats_fuzzer:BundleStatsFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/disk_fuzzer:DiskFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/fileutils_fuzzer:FileUtilsFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/fscryptutils_fuzzer:FscryptUtilsFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/keycontrol_fuzzer:KeyControlFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/storagestats_fuzzer:StorageStatsFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/storagetotalstatusservice_fuzzer:StorageTotalStatusServiceFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/stringutils_fuzzer:StringUtilsFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/sysparamdynamic_fuzzer:SysparamDynamicFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/sysparamstatic_fuzzer:SysparamStaticFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/volumecore_fuzzer:VolumeCoreFuzzTest",
+    "//foundation/filemanagement/storage_service/test/fuzztest/volumeexternal_fuzzer:VolumeExternalFuzzTest",
+  ]
+}

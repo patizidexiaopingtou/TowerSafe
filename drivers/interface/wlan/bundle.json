@@ -1,0 +1,56 @@
+{
+    "name": "@ohos/drivers_interface_wlan",
+    "description": "wlan device driver interface",
+    "version": "3.2",
+    "license": "Apache License 2.0",
+    "publishAs": "code-segment",
+    "segment": {
+      "destPath": "drivers/interface/wlan"
+    },
+    "dirs": {},
+    "scripts": {},
+    "component": {
+      "name": "drivers_interface_wlan",
+      "subsystem": "hdf",
+      "syscap": [""],
+      "adapter_system_type": ["standard"],
+      "rom": "675KB",
+      "ram": "1024KB",
+      "deps": {
+        "components": [
+          "ipc",
+          "hdf_core",
+          "hiviewdfx_hilog_native",
+          "utils_base"
+        ],
+        "third_party": [
+          "bounds_checking_function"
+        ]
+      },
+      "build": {
+        "sub_component": [
+          "//drivers/interface/wlan/v1_0:wlan_idl_target"
+        ],
+        "test": [
+        ],
+        "inner_kits": [
+          {
+            "name": "//drivers/interface/wlan/v1_0:libwlan_proxy_1.0",
+            "header": {
+              "header_files": [
+              ],
+              "header_base": "//drivers/interface/wlan"
+            }
+          },
+          {
+            "name": "//drivers/interface/wlan/v1_0:wlan_idl_headers",
+            "header": {
+              "header_files": [
+              ],
+              "header_base": "//drivers/interface/wlan"
+            }
+          }
+        ]
+      }
+    }
+  }

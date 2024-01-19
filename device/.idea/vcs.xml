@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/hisilicon/build" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hisilicon/drivers" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hisilicon/hardware" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hisilicon/hi3516dv300" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hisilicon/hispark_aries" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hisilicon/hispark_pegasus" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hisilicon/hispark_taurus" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hisilicon/itrustee/itrustee_ree_lite" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hisilicon/modules" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hisilicon/third_party/uboot" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/qemu" vcs="Git" />
+  </component>
+</project>

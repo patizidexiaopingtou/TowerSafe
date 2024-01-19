@@ -1,0 +1,22 @@
+{
+  "product_name": "system_arm_default",
+  "device_company": "ohos",
+  "target_cpu": "arm",
+  "board": "arm",
+  "type": "standard",
+  "version": "3.0",
+  "enable_ramdisk": true,
+  "build_selinux": true,
+  "inherit": [ "productdefine/common/inherit/rich.json" ],
+  "subsystems": [
+    {
+      "subsystem": "security",
+      "components": [
+        {
+          "component": "selinux",
+          "features": []
+        }
+      ]
+    }
+  ]
+}

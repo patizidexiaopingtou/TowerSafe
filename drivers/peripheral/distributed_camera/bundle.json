@@ -1,0 +1,46 @@
+{
+    "name":"@ohos/drivers_peripheral_distributed_camera",
+    "description":"drivers peripheral distributed camera",
+    "version":"3.2",
+    "license":"Apache License 2.0",
+    "publishAs": "code-segment",
+    "segment": {
+      "destPath": "drivers/peripheral/distributed_camera"
+    },
+    "dirs": {},
+    "scripts": {},
+    "component":{
+        "name":"drivers_peripheral_distributed_camera",
+        "subsystem":"hdf",
+        "syscap":[
+            ""
+        ],
+        "adapter_system_type":[
+            "standard"
+        ],
+        "rom":"2440KB",
+        "ram":"8500KB",
+        "deps":{
+            "components":[
+                "ipc",
+                "hdf_core",
+                "hiviewdfx_hilog_native",
+                "c_utils"
+            ],
+            "third_party":[
+                "bounds_checking_function"
+            ]
+        },
+        "build":{
+            "sub_component":[
+                "//drivers/peripheral/distributed_camera:distributed_camera_entry"
+            ],
+            "inner_kits":[
+
+            ],
+            "test":[
+                "//drivers/peripheral/distributed_camera/hdi_service/test/unittest:hdf_service_test"
+            ]
+        }
+    }
+}

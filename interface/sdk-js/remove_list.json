@@ -1,0 +1,27 @@
+{
+    "ets_internal_api": {
+        "base": [
+            "api/common/full/canvaspattern.d.ts",
+            "api/common/full/featureability.d.ts"
+        ]
+    },
+    "ets_component": {
+        "global_remove": [
+            "inspector.d.ts",
+            "middle_class.d.ts"
+        ],
+        "sdk_build_public_remove": [
+            "ability_component.d.ts",
+            "animator.d.ts",
+            "calendar.d.ts",
+            "form_component.d.ts",
+            "plugin_component.d.ts",
+            "remote_window.d.ts"
+        ]
+    },
+    "internal_lite": {
+        "sdk_build_public_remove": [
+            "featureability.d.ts"
+        ]
+    }
+}

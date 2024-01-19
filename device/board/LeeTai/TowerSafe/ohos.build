@@ -1,0 +1,10 @@
+{
+  "subsystem":"device_TowerSafe",
+  "parts": {
+    "device_TowerSafe": {
+      "module_list": [
+        "//device/board/LeeTai/common:process_after_build"
+      ]
+    }
+  }
+}

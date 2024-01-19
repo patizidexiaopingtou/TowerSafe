@@ -1,0 +1,7 @@
+
+
+if (defined(LOSCFG_SOC_ESP32_D0WDQ6)) {
+  import("sdkconfig_spiram.gni")
+} else {
+  import("sdkconfig_nspiram.gni")
+}

@@ -1,0 +1,9 @@
+
+
+config SOC_SERIES_ESP32
+    bool "Espressif Series"
+    select XTENSA
+    select SOC_COMPANY_ESPRESSIF
+    select CPU_LX6
+    help
+        Enable support for esp32 series

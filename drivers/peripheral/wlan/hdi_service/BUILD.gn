@@ -1,0 +1,127 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//drivers/hdf_core/adapter/uhdf2/uhdf.gni")
+
+HDI_WLAN_SERVICE_PATH =
+    rebase_path("//device/soc/${device_company}/common/hal/wlan")
+cmd = "if [ -f ${HDI_WLAN_SERVICE_PATH}/BUILD.gn ]; then echo true; else echo false; fi"
+HAVE_WLAN_DAL_SERVICE =
+    exec_script("//build/lite/run_shell_cmd.py", [ cmd ], "value")
+
+ohos_shared_library("libwlan_interface_service_1.0") {
+  include_dirs = [
+    "//drivers/peripheral/wlan/interfaces/include",
+    "//drivers/peripheral/wlan/client/include",
+    "//drivers/peripheral/wlan/hal/include",
+    "//drivers/peripheral/wlan/hdi_service/service_common",
+  ]
+  sources = [
+    "service_common/wlan_common_cmd.c",
+    "wlan_interface_service.c",
+  ]
+
+  deps = [
+    "//drivers/interface/wlan/v1_0:libwlan_stub_1.0",
+    "//drivers/peripheral/wlan/hal:wifi_hal",
+  ]
+
+  if (HAVE_WLAN_DAL_SERVICE) {
+    deps += [ "${HDI_WLAN_SERVICE_PATH}:service_extend" ]
+    include_dirs += [ "//device/soc/${device_company}/common/hal/wlan" ]
+  } else {
+    deps += [ "//drivers/peripheral/wlan/hdi_service/service_extend:libwlan_service_extend" ]
+    include_dirs += [ "//drivers/peripheral/wlan/hdi_service/service_extend" ]
+  }
+  defines = [ "__OHOS__USER__" ]
+
+  cflags = [
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fsigned-char",
+    "-fno-common",
+    "-fno-strict-aliasing",
+  ]
+
+  if (is_standard_system) {
+    external_deps = [
+      "c_utils:utils",
+      "hdf_core:libhdf_host",
+      "hdf_core:libhdf_utils",
+      "hiviewdfx_hilog_native:libhilog",
+    ]
+  } else {
+    external_deps = [ "hilog:libhilog" ]
+  }
+
+  install_images = [ chipset_base_dir ]
+  subsystem_name = "hdf"
+  part_name = "drivers_peripheral_wlan"
+}
+
+ohos_shared_library("libwifi_hdi_c_device") {
+  include_dirs = [
+    "//drivers/peripheral/wlan/interfaces/include",
+    "//drivers/peripheral/wlan/client/include",
+    "//drivers/peripheral/wlan/hal/include",
+  ]
+
+  sources = [ "wlan_interface_drivers.c" ]
+
+  deps = [
+    "//drivers/interface/wlan/v1_0:libwlan_stub_1.0",
+    "//drivers/peripheral/wlan/hdi_service:libwlan_interface_service_1.0",
+  ]
+
+  if (HAVE_WLAN_DAL_SERVICE) {
+    deps += [ "${HDI_WLAN_SERVICE_PATH}:service_extend" ]
+    include_dirs += [ "//device/soc/${device_company}/common/hal/wlan" ]
+  } else {
+    deps += [ "//drivers/peripheral/wlan/hdi_service/service_extend:libwlan_service_extend" ]
+    include_dirs += [ "//drivers/peripheral/wlan/hdi_service/service_extend" ]
+  }
+
+  cflags = [
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fsigned-char",
+    "-fno-common",
+    "-fno-strict-aliasing",
+  ]
+
+  if (is_standard_system) {
+    external_deps = [
+      "c_utils:utils",
+      "hdf_core:libhdf_host",
+      "hdf_core:libhdf_utils",
+      "hdf_core:libhdi",
+      "hiviewdfx_hilog_native:libhilog",
+    ]
+  } else {
+    external_deps = [ "hilog:libhilog" ]
+  }
+
+  install_images = [ chipset_base_dir ]
+  subsystem_name = "hdf"
+  part_name = "drivers_peripheral_wlan"
+}
+
+group("hdi_wlan_service") {
+  deps = [
+    ":libwifi_hdi_c_device",
+    ":libwlan_interface_service_1.0",
+  ]
+}

@@ -1,0 +1,6 @@
+
+config SOC
+    string
+    default "esp32_u4wdh"
+    depends on SOC_ESP32
+

@@ -1,0 +1,6 @@
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} mock)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/lite mock_lite)
+include_directories(${PROJECT_SOURCE_DIR}/utils/native/lite/timer_task/include)
+add_library(mock STATIC ${mock} ${mock_lite})
+target_include_directories(mock PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}/lite)
+target_link_libraries(mock util ui jsfwk utils_jsapi nativeapi_locale nativeapi_battery nativeapi_brightness nativeapi_location nativeapi_sensor nativeapi_miscdevice jsapp)

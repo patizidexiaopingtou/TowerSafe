@@ -1,0 +1,22 @@
+[
+    { "name": "SystemWriteParam" },
+    { "name": "SystemReadParam" },
+    { "name": "LoadParamsFile" },
+    { "name": "SplitString" },
+    { "name": "AddCmdExecutor" },
+    { "name": "RemoveCmdExecutor" },
+    { "name": "HookMgrAdd" },
+    { "name": "GetBootStageHookMgr"},
+    { "name": "InitAddGlobalInitHook" },
+    { "name": "InitAddPreParamServiceHook" },
+    { "name": "InitAddPreParamLoadHook" },
+    { "name": "InitAddPreCfgLoadHook" },
+    { "name": "InitAddPostCfgLoadHook" },
+    { "name": "InitModuleMgrInstall" },
+    { "name": "InitModuleMgrUnInstall" },
+    { "name": "StartupLog" },
+    { "name": "DoJobNow" },
+    { "name": "GetServiceExtData" },
+    { "name": "UpdateMiscMessage" },
+    { "name": "AddRebootCmdExecutor" }
+]

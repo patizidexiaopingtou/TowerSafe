@@ -1,0 +1,210 @@
+# Copyright (c) 2022  Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos/sa_profile/sa_profile.gni")
+import("device_usage_statistics.gni")
+
+ohos_sa_profile("device_usage_statistics_sa_profile") {
+  sources = [ "sa_profile/1907.xml" ]
+  part_name = "${device_usage_statistics_part_name}"
+}
+
+config("usagestatsinner_public_config") {
+  include_dirs = [
+    "services/common/include",
+    "services/packageusage/include",
+    "services/packagegroup/include",
+    "interfaces/innerkits/include",
+    "interfaces/kits/bundlestats/napi/include",
+  ]
+}
+
+ohos_shared_library("usagestatsinner") {
+  sources = [
+    "interfaces/innerkits/src/app_group_callback_info.cpp",
+    "interfaces/innerkits/src/app_group_callback_proxy.cpp",
+    "interfaces/innerkits/src/app_group_callback_stub.cpp",
+    "interfaces/innerkits/src/bundle_active_client.cpp",
+    "interfaces/innerkits/src/bundle_active_proxy.cpp",
+    "services/common/src/bundle_active_log.cpp",
+    "services/packageusage/src/bundle_active_event.cpp",
+    "services/packageusage/src/bundle_active_event_stats.cpp",
+    "services/packageusage/src/bundle_active_form_record.cpp",
+    "services/packageusage/src/bundle_active_module_record.cpp",
+    "services/packageusage/src/bundle_active_package_stats.cpp",
+  ]
+  public_configs = [ ":usagestatsinner_public_config" ]
+  external_deps = [
+    "c_utils:utils",
+    "eventhandler:libeventhandler",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+    "samgr:samgr_proxy",
+  ]
+
+  part_name = "${device_usage_statistics_part_name}"
+  subsystem_name = "resourceschedule"
+}
+
+ohos_prebuilt_etc("device_usage_statistics_service_init") {
+  source = "init/device_usage_statistics_service.cfg"
+  relative_install_dir = "init"
+  part_name = "${device_usage_statistics_part_name}"
+  subsystem_name = "resourceschedule"
+}
+
+ohos_shared_library("bundlestate") {
+  sources = [
+    "frameworks/src/bundle_state_common.cpp",
+    "frameworks/src/bundle_state_init.cpp",
+    "frameworks/src/bundle_state_query.cpp",
+  ]
+  include_dirs = [
+    "interfaces/kits/bundlestats/napi/include",
+    "services/common/include",
+    "interfaces/innerkits/include",
+    "services/packageusage/include",
+    "services/packagegroup/include",
+    "//base/notification/eventhandler/interfaces/inner_api",
+  ]
+
+  deps = [
+    ":usagestatservice",
+    ":usagestatsinner",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+    "napi:ace_napi",
+  ]
+  relative_install_dir = "module"
+  part_name = "${device_usage_statistics_part_name}"
+  subsystem_name = "resourceschedule"
+}
+
+ohos_shared_library("usagestatistics") {
+  sources = [
+    "frameworks/src/app_group_observer_napi.cpp",
+    "frameworks/src/bundle_active_app_group_napi.cpp",
+    "frameworks/src/bundle_state_common.cpp",
+    "frameworks/src/bundle_state_query_napi.cpp",
+    "frameworks/src/usage_statistics_init.cpp",
+  ]
+  include_dirs = [
+    "interfaces/kits/bundlestats/napi/include",
+    "services/common/include",
+    "interfaces/innerkits/include",
+    "services/packageusage/include",
+    "services/packagegroup/include",
+    "//base/notification/eventhandler/interfaces/inner_api",
+  ]
+
+  deps = [
+    ":usagestatservice",
+    ":usagestatsinner",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+    "napi:ace_napi",
+  ]
+  relative_install_dir = "module/resourceschedule"
+  part_name = "${device_usage_statistics_part_name}"
+  subsystem_name = "resourceschedule"
+}
+
+ohos_shared_library("usagestatservice") {
+  cflags_cc = []
+  sources = [
+    "interfaces/innerkits/src/app_group_callback_info.cpp",
+    "interfaces/innerkits/src/app_group_callback_proxy.cpp",
+    "services/common/src/bundle_active_account_helper.cpp",
+    "services/common/src/bundle_active_app_state_obsever.cpp",
+    "services/common/src/bundle_active_binary_search.cpp",
+    "services/common/src/bundle_active_continuous_task_observer.cpp",
+    "services/common/src/bundle_active_core.cpp",
+    "services/common/src/bundle_active_debug_mode.cpp",
+    "services/common/src/bundle_active_log.cpp",
+    "services/common/src/bundle_active_open_callback.cpp",
+    "services/common/src/bundle_active_power_state_callback_proxy.cpp",
+    "services/common/src/bundle_active_power_state_callback_service.cpp",
+    "services/common/src/bundle_active_power_state_callback_stub.cpp",
+    "services/common/src/bundle_active_service.cpp",
+    "services/common/src/bundle_active_shutdown_callback_proxy.cpp",
+    "services/common/src/bundle_active_shutdown_callback_service.cpp",
+    "services/common/src/bundle_active_shutdown_callback_stub.cpp",
+    "services/common/src/bundle_active_stub.cpp",
+    "services/common/src/bundle_active_usage_database.cpp",
+    "services/packagegroup/src/bundle_active_group_controller.cpp",
+    "services/packagegroup/src/bundle_active_group_handler.cpp",
+    "services/packagegroup/src/bundle_active_user_history.cpp",
+    "services/packageusage/src/bundle_active_calendar.cpp",
+    "services/packageusage/src/bundle_active_event.cpp",
+    "services/packageusage/src/bundle_active_event_list.cpp",
+    "services/packageusage/src/bundle_active_event_stats.cpp",
+    "services/packageusage/src/bundle_active_event_tracker.cpp",
+    "services/packageusage/src/bundle_active_form_record.cpp",
+    "services/packageusage/src/bundle_active_module_record.cpp",
+    "services/packageusage/src/bundle_active_package_stats.cpp",
+    "services/packageusage/src/bundle_active_period_stats.cpp",
+    "services/packageusage/src/bundle_active_report_handler.cpp",
+    "services/packageusage/src/bundle_active_stats_combiner.cpp",
+    "services/packageusage/src/bundle_active_user_service.cpp",
+  ]
+  include_dirs = [
+    ":bundle_active_config",
+    "services/common/include",
+    "services/packageusage/include",
+    "services/packagegroup/include",
+    "interfaces/innerkits/include",
+    "interfaces/kits/bundlestats/napi/include",
+  ]
+
+  configs = [ "//foundation/ability/ability_runtime/interfaces/inner_api/wantagent:wantagent_innerkits_public_config" ]
+
+  external_deps = [
+    "ability_base:want",
+    "ability_runtime:app_manager",
+    "access_token:libaccesstoken_sdk",
+    "bundle_framework:appexecfwk_base",
+    "bundle_framework:appexecfwk_core",
+    "c_utils:utils",
+    "common_event_service:cesfwk_innerkits",
+    "eventhandler:libeventhandler",
+    "hiviewdfx_hilog_native:libhilog",
+    "init:libbegetutil",
+    "ipc:ipc_core",
+    "power_manager:powermgr_client",
+    "relational_store:native_rdb",
+    "safwk:system_ability_fwk",
+    "samgr:samgr_proxy",
+    "time_service:time_client",
+  ]
+
+  if (os_account_part_enabled) {
+    cflags_cc += [ "-DOS_ACCOUNT_PART_ENABLED" ]
+    external_deps += [ "os_account:os_account_innerkits" ]
+  }
+
+  defines = []
+  if (bgtaskmgr_enable) {
+    external_deps += [ "background_task_mgr:bgtaskmgr_innerkits" ]
+    defines += [ "BGTASKMGR_ENABLE" ]
+  }
+  part_name = "${device_usage_statistics_part_name}"
+  subsystem_name = "resourceschedule"
+}

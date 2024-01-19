@@ -1,0 +1,36 @@
+{
+    "distributedsched": {
+        "servicesAuthority": {
+          "specific": {
+            "appInfo": 1
+          }
+        }
+    },
+    "foundation": {
+        "servicesAuthority": {
+          "specific": {
+            "syscap": 1
+          }
+        }
+    },
+    "multimodalinput": {
+        "servicesAuthority": {
+          "specific": {
+            "InputDeviceCooperation": 3
+          }
+        },
+        "interfacesAuthority": {
+          "sync": {}
+        }
+    },
+    "pasteboard_service": {
+        "servicesAuthority": {
+          "specific": {
+            "pasteboard_service": 3
+          }
+        },
+        "interfacesAuthority": {
+          "sync": {}
+        }
+    }
+}

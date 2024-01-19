@@ -1,0 +1,32 @@
+{
+  "module": {
+    "name": "entry",
+    "type": "entry",
+    "srcEntrance": "./ets/Application/AbilityStage.ts",
+    "mainElement": "FileExtensionAbility",
+    "deviceTypes": [
+      "default",
+      "phone",
+      "tablet"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false,
+    "pages": "$profile:main_pages",
+    "uiSyntax": "ets",
+    "abilities": [],
+    "extensionAbilities": [
+      {
+        "srcEntrance": "./ets/FileExtensionAbility/FileExtensionAbility.ts",
+        "name": "FileExtensionAbility",
+        "type": "fileAccess",
+        "uri": "fileAccess://com.ohos.UserFile.ExternalFileManager",
+        "visible": true
+      }
+    ],
+    "requestPermissions": [
+      {
+        "name": "ohos.permission.STORAGE_MANAGER"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "component": {
+    "name": "common",
+    "description": "common component set",
+    "subsystem": "common",
+    "features": [
+      "common_feature_verify"
+    ],
+    "rom": "",
+    "ram": "",
+    "deps": {},
+    "build": {
+      "sub_component": [
+        "//build/common:common_packages",
+        "//third_party/f2fs-tools:f2fs-tools_host_toolchain"
+      ]
+    }
+  }
+}

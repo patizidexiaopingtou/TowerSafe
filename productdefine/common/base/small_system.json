@@ -1,0 +1,68 @@
+{
+  "subsystems": [  
+    {
+      "subsystem": "kernel",
+      "components": [
+        { "component": "liteos_a" }
+      ]
+    },
+    {
+      "subsystem": "hdf",
+      "components": [
+        { "component": "hdf_core" }
+      ]
+    },
+    {
+      "subsystem": "hiviewdfx",
+      "components": [
+        { "component": "hilog_featured_lite" }
+      ]
+    },
+    {
+      "subsystem": "startup",
+      "components": [
+        { "component": "init_lite" },
+        { "component": "bootstrap_lite" },
+        { "component": "syspara_lite" }
+      ]
+    },
+    {
+      "subsystem": "communication",
+      "components": [
+        { "component": "dsoftbus" }
+      ]
+    },
+    {
+      "subsystem": "systemabilitymgr",
+      "components": [
+        { "component": "samgr_lite" },
+        { "component": "safwk_lite" }
+      ]
+    },
+    {
+      "subsystem": "security",
+      "components": [
+        { "component": "device_auth" },
+        { "component": "huks" }
+      ]
+    },
+    {
+      "subsystem": "utils",
+      "components": [
+        { "component": "kal_timer" }
+      ]
+    },
+    {
+      "subsystem": "updater",
+      "components": [
+        { "component": "ota_lite" }
+      ]
+    },
+    {
+      "subsystem": "developtools",
+      "components": [
+        { "component": "syscap_codec" }
+      ]
+    }
+  ]
+} 

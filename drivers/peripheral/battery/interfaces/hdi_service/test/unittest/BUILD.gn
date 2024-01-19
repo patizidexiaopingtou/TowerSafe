@@ -1,0 +1,145 @@
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/test.gni")
+import("//drivers/hdf_core/adapter/uhdf/uhdf.gni")
+
+module_output_path = "drivers_peripheral_battery/battery"
+
+###############################################################################
+config("module_private_config") {
+  visibility = [ ":*" ]
+
+  include_dirs = [
+    "include",
+    "//drivers/peripheral/battery/charger/ui/include",
+    "//drivers/peripheral/battery/charger/led",
+    "//drivers/peripheral/battery/charger/backlight",
+    "//drivers/peripheral/battery/charger/vibrate",
+    "//drivers/peripheral/battery/charger/include",
+    "//drivers/peripheral/battery/interfaces/include",
+    "//drivers/peripheral/battery/include",
+    "//drivers/peripheral/battery/interfaces/hdi_service/include",
+    "//drivers/peripheral/battery/utils/include",
+  ]
+}
+
+##############################unittest##########################################
+ohos_unittest("test_hdisrv") {
+  module_out_path = module_output_path
+
+  sources = [
+    "//drivers/peripheral/battery/charger/backlight/battery_backlight.cpp",
+    "//drivers/peripheral/battery/charger/led/battery_led.cpp",
+    "//drivers/peripheral/battery/charger/src/charger_thread.cpp",
+    "//drivers/peripheral/battery/charger/vibrate/battery_vibrate.cpp",
+    "//drivers/peripheral/battery/interfaces/hdi_service/src/battery_config.cpp",
+    "//drivers/peripheral/battery/interfaces/hdi_service/src/battery_thread.cpp",
+    "//drivers/peripheral/battery/interfaces/hdi_service/src/power_supply_provider.cpp",
+    "src/battery_config_test.cpp",
+    "src/battery_led_test.cpp",
+    "src/hdi_service_test.cpp",
+  ]
+
+  configs = [ ":module_private_config" ]
+
+  deps = [
+    "//drivers/interface/battery/v1_1:libbattery_stub_1.1",
+    "//drivers/peripheral/battery/charger/ui:libminui",
+    "//third_party/googletest:gmock_main",
+    "//third_party/googletest:gtest_main",
+    "//third_party/jsoncpp:jsoncpp",
+    "//third_party/libpng:libpng",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "drivers_interface_light:liblight_proxy_1.0",
+    "drivers_peripheral_input:hdi_input",
+    "hdf_core:libhdf_host",
+    "hdf_core:libhdf_ipc_adapter",
+    "hdf_core:libhdf_utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "init:libbegetutil",
+    "ipc:ipc_single",
+  ]
+}
+
+##############################unittest##########################################
+ohos_unittest("test_capacity_shutdown") {
+  module_out_path = module_output_path
+
+  sources = [
+    "//drivers/peripheral/battery/charger/backlight/battery_backlight.cpp",
+    "//drivers/peripheral/battery/charger/led/battery_led.cpp",
+    "//drivers/peripheral/battery/charger/src/charger_thread.cpp",
+    "//drivers/peripheral/battery/charger/vibrate/battery_vibrate.cpp",
+    "//drivers/peripheral/battery/interfaces/hdi_service/src/battery_config.cpp",
+    "//drivers/peripheral/battery/interfaces/hdi_service/src/battery_thread.cpp",
+    "//drivers/peripheral/battery/interfaces/hdi_service/src/power_supply_provider.cpp",
+    "src/capacity_shutdown_test.cpp",
+  ]
+
+  configs = [ ":module_private_config" ]
+
+  deps = [
+    "//drivers/interface/battery/v1_1:libbattery_stub_1.1",
+    "//drivers/peripheral/battery/charger/ui:libminui",
+    "//third_party/googletest:gmock_main",
+    "//third_party/googletest:gtest_main",
+    "//third_party/jsoncpp:jsoncpp",
+    "//third_party/libpng:libpng",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "drivers_interface_light:liblight_proxy_1.0",
+    "drivers_peripheral_input:hdi_input",
+    "hdf_core:libhdf_host",
+    "hdf_core:libhdf_ipc_adapter",
+    "hdf_core:libhdf_utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "init:libbegetutil",
+    "ipc:ipc_single",
+  ]
+}
+
+ohos_unittest("hdi_unittest_battery") {
+  module_out_path = module_output_path
+  sources = [ "src/hdi_interface_test.cpp" ]
+
+  configs = [ ":module_private_config" ]
+
+  if (is_standard_system) {
+    external_deps = [
+      "c_utils:utils",
+      "drivers_interface_battery:libbattery_proxy_1.1",
+      "hdf_core:libhdf_utils",
+      "hiviewdfx_hilog_native:libhilog",
+      "ipc:ipc_single",
+    ]
+  } else {
+    external_deps = [ "hilog:libhilog" ]
+  }
+}
+
+group("unittest") {
+  testonly = true
+  deps = []
+
+  deps += [
+    ":hdi_unittest_battery",
+    ":test_capacity_shutdown",
+    ":test_hdisrv",
+  ]
+}

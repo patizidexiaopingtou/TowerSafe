@@ -1,0 +1,38 @@
+{
+    "name": "@openharmony/kal_timer",
+    "version": "3.1.0",
+    "license": "Apache License 2.0",
+    "description": "",
+    "publishAs": "code-segment",
+    "segment": {
+        "destPath": "commonlibrary/utils_lite/kal/timer"
+    },
+    "dirs": {},
+    "scripts": {},
+    "author": {},
+    "repository": "",
+    "component": {
+        "name": "kal_timer",
+        "subsystem": "commonlibrary",
+        "features": [],
+        "adapted_system_type": [
+            "mini",
+            "small"
+        ],
+        "rom": "15KB",
+        "ram": "",
+        "deps": {
+            "thrid_party": [],
+            "kernel_special": {},
+            "board_special": {},
+            "components": [
+                "utils_lite"
+            ]
+        },
+        "build": {
+            "sub_component": [ "//commonlibrary/utils_lite/kal/timer:kal_timer" ],
+            "inner_kits": [],
+            "test": []
+        }
+    }
+}

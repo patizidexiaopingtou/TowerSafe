@@ -1,0 +1,16 @@
+
+menuconfig BOARD_TOWERSAFE
+    bool "select board TowerSafe"
+    depends on SOC_ESP32_D0WDQ6
+
+if BOARD_TOWERSAFE
+
+menuconfig ENABLE_LVGL
+    bool "enalbe lvgl"
+    depends on BOARD_TOWERSAFE
+
+orsource "../../../../vendor/LeeTai/TowerSafe/app/Kconfig.liteos_m.applications"
+#orsource "../../../../vendor/LeeTai/demo/Kconfig.liteos_m.applications"
+
+endif #BOARD_TOWERSAFE
+

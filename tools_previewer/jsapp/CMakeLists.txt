@@ -1,0 +1,5 @@
+﻿aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} jsapp)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/lite jsapp_lite)
+add_library(jsapp STATIC ${jsapp} ${jsapp_lite})
+target_include_directories(jsapp PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}/lite)
+target_link_libraries(jsapp cli util mock ui jsfwk)

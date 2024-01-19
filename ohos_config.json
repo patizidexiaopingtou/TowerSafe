@@ -1,0 +1,20 @@
+{
+  "root_path": "/home/hispark/TowerSafe",
+  "board": "TowerSafe",
+  "kernel": "liteos_m",
+  "product": "TowerSafe",
+  "product_path": "/home/hispark/TowerSafe/vendor/LeeTai/TowerSafe",
+  "device_path": "/home/hispark/TowerSafe/device/board/LeeTai/TowerSafe/liteos_m",
+  "device_company": "LeeTai",
+  "os_level": "mini",
+  "version": "3.0",
+  "patch_cache": null,
+  "product_json": "/home/hispark/TowerSafe/vendor/LeeTai/TowerSafe/config.json",
+  "component_type": "",
+  "product_config_path": "/home/hispark/TowerSafe/vendor/LeeTai/TowerSafe",
+  "target_cpu": null,
+  "target_os": null,
+  "out_path": "/home/hispark/TowerSafe/out/TowerSafe/TowerSafe",
+  "subsystem_config_json": "build/subsystem_config.json",
+  "device_config_path": "/home/hispark/TowerSafe/device/board/LeeTai/TowerSafe/liteos_m"
+}

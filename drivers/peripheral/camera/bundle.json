@@ -1,0 +1,60 @@
+{
+  "name": "@ohos/drivers_peripheral_camera",
+  "description": "camera device driver",
+  "version": "3.1",
+  "license": "Apache License 2.0",
+  "publishAs": "code-segment",
+  "segment": {
+    "destPath": "drivers/peripheral/camera"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "drivers_peripheral_camera",
+    "subsystem": "hdf",
+    "syscap": [ "" ],
+    "adapter_system_type": ["standard"],
+    "rom": "2440KB",
+    "ram": "8500KB",
+    "deps": {
+      "components": [
+        "graphic_standard",
+        "hdf_core",
+        "hiviewdfx_hilog_native",
+        "multimedia_camera_framework",
+        "samgr",
+        "drivers_peripheral_display",
+        "ipc",
+        "utils_base"
+      ],
+      "third_party": [
+        "googletest"
+      ]
+    },
+    "build": {
+      "sub_component": [
+        "//drivers/peripheral/camera/hal:camera_hal"
+      ],
+      "test": [
+        "//drivers/peripheral/camera/hal/test/at:camera_test_at",
+        "//drivers/peripheral/camera/hal/test/ut:camera_test_ut"
+      ],
+      "inner_kits": [
+        {
+          "name": "//drivers/peripheral/camera/interfaces/metadata:metadata",
+          "header": {
+            "header_files": [
+              "camera_device_ability_items.h",
+              "camera_metadata_info.h",
+              "camera_metadata_item_info.h",
+              "camera_metadata_operator.h",
+              "metadata_log.h",
+              "metadata_utils.h"
+            ],
+            "header_base": "//drivers/peripheral/camera/interfaces/metadata/include"
+          }
+        }
+      ]
+    }
+  }
+}

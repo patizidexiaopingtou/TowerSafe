@@ -1,0 +1,228 @@
+# Copyright (c) 2021 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/filemanagement/storage_service/storage_service_aafwk.gni")
+
+## Install storage_daemon.cfg to /system/etc/init/storage_daemon.cfg {{{
+ohos_prebuilt_etc("storage_daemon_cfg") {
+  source = "storage_daemon.cfg"
+  relative_install_dir = "init"
+  part_name = "storage_service"
+  subsystem_name = "filemanagement"
+}
+
+## Install storage_daemon.cfg to /system/etc/init/storage_daemon.cfg }}}
+
+config("storage_daemon_config") {
+  include_dirs = [
+    "include",
+    "//third_party/bounds_checking_function/include",
+    "//foundation/systemabilitymgr/samgr/interfaces/innerkits/samgr_proxy/include",
+    "../storage_manager/include",
+    "//foundation/systemabilitymgr/safwk/interfaces/innerkits/safwk",
+    "//foundation/filemanagement/storage_service/interfaces/innerkits/storage_manager/native",
+    "//base/security/access_token/interfaces/innerkits/accesstoken/include",
+    "//foundation/filemanagement/storage_service/services/common/include",
+  ]
+}
+
+## Install config.txt to /system/etc/init/config.txt {{{
+ohos_prebuilt_etc("storage_daemon_disk_config") {
+  source = "config.txt"
+  relative_install_dir = "init"
+  part_name = "storage_service"
+  subsystem_name = "filemanagement"
+}
+
+declare_args() {
+  storage_service_user_file_sharing = true
+}
+
+ohos_executable("storage_daemon") {
+  sources = [
+    "../storage_manager/innerkits_impl/src/bundle_stats.cpp",
+    "../storage_manager/innerkits_impl/src/disk.cpp",
+    "../storage_manager/innerkits_impl/src/storage_stats.cpp",
+    "../storage_manager/innerkits_impl/src/volume_core.cpp",
+    "../storage_manager/innerkits_impl/src/volume_external.cpp",
+    "../storage_manager/ipc/src/storage_manager_proxy.cpp",
+    "disk/src/disk_config.cpp",
+    "disk/src/disk_info.cpp",
+    "disk/src/disk_manager.cpp",
+    "ipc/src/storage_daemon.cpp",
+    "ipc/src/storage_daemon_stub.cpp",
+    "ipc/src/storage_manager_client.cpp",
+    "main.cpp",
+    "netlink/src/netlink_data.cpp",
+    "netlink/src/netlink_handler.cpp",
+    "netlink/src/netlink_listener.cpp",
+    "netlink/src/netlink_manager.cpp",
+    "user/src/mount_manager.cpp",
+    "user/src/user_manager.cpp",
+    "utils/disk_utils.cpp",
+    "utils/mount_argument_utils.cpp",
+    "volume/src/external_volume_info.cpp",
+    "volume/src/process.cpp",
+    "volume/src/volume_info.cpp",
+    "volume/src/volume_manager.cpp",
+  ]
+
+  defines = [
+    "STORAGE_LOG_TAG = \"StorageDaemon\"",
+    "LOG_DOMAIN = 0xD004301",
+  ]
+
+  if (storage_service_user_file_sharing) {
+    defines += [ "USER_FILE_SHARING" ]
+    sources += [
+      "file_sharing/src/acl.cpp",
+      "file_sharing/src/file_sharing.cpp",
+      "file_sharing/src/setacl.cpp",
+    ]
+  }
+
+  configs = [ ":storage_daemon_config" ]
+
+  deps = [
+    ":sdc",
+    ":storage_common_utils",
+    "crypto:libsdcrypto",
+    "libfscrypt:libfscryptutils",
+  ]
+
+  external_deps = [
+    "ability_base:base",
+    "ability_base:want",
+    "ability_base:zuri",
+    "access_token:libaccesstoken_sdk",
+    "app_file_service:fileshare_native",
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "init:libbegetutil",
+    "ipc:ipc_core",
+    "samgr:samgr_proxy",
+  ]
+
+  subsystem_name = "filemanagement"
+  part_name = "storage_service"
+  install_enable = true
+}
+
+config("sdc_config") {
+  include_dirs = [
+    "include",
+    "//foundation/filemanagement/storage_service/services/common/include",
+    "//commonlibrary/c_utils/base/include",
+    "//foundation/systemabilitymgr/samgr/interfaces/innerkits/samgr_proxy/include",
+    "//utils/system/safwk/native/include",
+    "//foundation/communication/ipc/interfaces/innerkits/ipc_core/include/",
+    "client/include",
+    "../../interfaces/innerkits/storage_manager/native",
+    "../storage_manager/include",
+    "//foundation/bundlemanager/bundle_framework/services/bundlemgr/include",
+    "//foundation/systemabilitymgr/safwk/interfaces/innerkits/safwk",
+  ]
+}
+
+ohos_executable("sdc") {
+  sources = [
+    "../storage_manager/client/storage_manager_client.cpp",
+    "../storage_manager/innerkits_impl/src/bundle_stats.cpp",
+    "../storage_manager/innerkits_impl/src/disk.cpp",
+    "../storage_manager/innerkits_impl/src/storage_stats.cpp",
+    "../storage_manager/innerkits_impl/src/volume_core.cpp",
+    "../storage_manager/innerkits_impl/src/volume_external.cpp",
+    "../storage_manager/ipc/src/storage_manager_proxy.cpp",
+    "client/storage_daemon_client.cpp",
+    "ipc/src/storage_daemon_proxy.cpp",
+    "sdc.cpp",
+  ]
+
+  defines = [
+    "STORAGE_LOG_TAG = \"StorageDaemon\"",
+    "LOG_DOMAIN = 0xD004301",
+  ]
+
+  configs = [ ":sdc_config" ]
+
+  deps = [
+    ":storage_common_utils",
+    "libfscrypt:libfscryptutils",
+  ]
+
+  public_deps = [ "//commonlibrary/c_utils/base:utils" ]
+
+  external_deps = [
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+    "samgr:samgr_proxy",
+  ]
+
+  subsystem_name = "filemanagement"
+  part_name = "storage_service"
+  install_enable = true
+}
+
+declare_args() {
+  storage_service_fstools = true
+}
+
+ohos_shared_library("storage_common_utils") {
+  include_dirs = [
+    "./include",
+    "//foundation/filemanagement/storage_service/services/common/include",
+  ]
+
+  defines = [
+    "STORAGE_LOG_TAG = \"StorageCommonUtils\"",
+    "LOG_DOMAIN = 0xD004301",
+  ]
+
+  sources = [
+    "./utils/file_utils.cpp",
+    "./utils/string_utils.cpp",
+  ]
+
+  if (build_selinux) {
+    defines += [ "USE_LIBRESTORECON" ]
+    include_dirs +=
+        [ "//base/security/selinux/interfaces/policycoreutils/include" ]
+
+    deps = [ "//base/security/selinux:librestorecon" ]
+  }
+
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+  ]
+
+  subsystem_name = "filemanagement"
+  part_name = "storage_service"
+  install_enable = true
+}
+
+group("storage_daemon_third_party") {
+  deps = []
+  if (storage_service_fstools) {
+    deps += [
+      "//third_party/FreeBSD/sbin/fsck_msdosfs:fsck_msdos",
+      "//third_party/FreeBSD/sbin/newfs_msdos:newfs_msdos",
+      "//third_party/e2fsprogs/misc:blkid",
+      "//third_party/exfatprogs:exfatprogs",
+      "//third_party/f2fs-tools:f2fs-tools",
+      "//third_party/gptfdisk:sgdisk",
+      "//third_party/ntfs-3g:ntfsprogs",
+    ]
+  }
+}

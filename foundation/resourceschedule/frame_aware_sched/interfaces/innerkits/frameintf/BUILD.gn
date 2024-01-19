@@ -1,0 +1,130 @@
+# Copyright (C) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/resourceschedule/frame_aware_sched/frameaware.gni")
+
+config("frame_ui_intf_config") {
+  visibility = [ ":*" ]
+
+  include_dirs = [
+    "${innerkits_path}/frameintf",
+    "${frame_aware_path}/common/include",
+    "${framework_path}/frame_aware_collector/include",
+    "//commonlibrary/c_utils/base/include",
+    "//utils/system/safwk/native/include",
+    "//base/hiviewdfx/interfaces/innerkits/libhilog/include",
+    "//base/hiviewdfx/interfaces/innerkits/libhitrace/include",
+  ]
+}
+
+config("frame_trace_intf_config") {
+  visibility = [ ":*" ]
+  include_dirs = [ "${innerkits_path}/frameintf" ]
+}
+
+ohos_shared_library("frame_trace_intf") {
+  sources = [ "frame_trace.cpp" ]
+
+  cflags = [ "-fstack-protector-strong" ]
+
+  public_configs = [ ":frame_trace_intf_config" ]
+
+  subsystem_name = "resourceschedule"
+  part_name = "frame_aware_sched"
+}
+
+ohos_shared_library("frame_ui_intf") {
+  sources = [
+    "${frame_aware_path}/interfaces/innerkits/frameintf/rtg_interface.cpp",
+    "${framework_path}/frame_aware_collector/src/frame_msg_mgr.cpp",
+    "${framework_path}/frame_aware_collector/src/frame_window_mgr.cpp",
+    "${framework_path}/frame_aware_collector/src/rme_core_sched.cpp",
+    "${framework_path}/frame_aware_collector/src/rme_scene_sched.cpp",
+    "frame_ui_intf.cpp",
+  ]
+
+  cflags = [ "-Wno-shift-negative-value" ]
+
+  configs = [ ":frame_ui_intf_config" ]
+
+  deps = [ "//base/hiviewdfx/hilog/interfaces/native/innerkits:libhilog" ]
+
+  public_deps = [ "//commonlibrary/c_utils/base:utils" ]
+
+  external_deps = [
+    "c_utils:utils",
+    "hitrace_native:hitrace_meter",
+    "hiviewdfx_hilog_native:libhilog",
+  ]
+
+  subsystem_name = "resourceschedule"
+  part_name = "frame_aware_sched"
+}
+
+config("frame_msg_intf_config") {
+  visibility = [ ":*" ]
+
+  include_dirs = [
+    "${innerkits_path}/frameintf",
+    "//third_party/libxml2/include",
+    "${framework_path}/frame_aware_policy/include",
+    "${frame_aware_path}/common/include",
+    "//base/hiviewdfx/interfaces/innerkits/libhilog/include",
+    "//base/hiviewdfx/interfaces/innerkits/libhitrace/include",
+  ]
+}
+
+ohos_shared_library("frame_msg_intf") {
+  sources = [
+    "${frame_aware_path}/interfaces/innerkits/frameintf/rtg_interface.cpp",
+    "${framework_path}/frame_aware_policy/src/app_info.cpp",
+    "${framework_path}/frame_aware_policy/src/intellisense_server.cpp",
+    "${framework_path}/frame_aware_policy/src/para_config.cpp",
+    "frame_msg_intf.cpp",
+  ]
+
+  cflags = [ "-Wno-shift-negative-value" ]
+
+  configs = [ ":frame_msg_intf_config" ]
+
+  deps = [ "//third_party/libxml2:xml2" ]
+
+  external_deps = [
+    "c_utils:utils",
+    "eventhandler:libeventhandler",
+    "hitrace_native:hitrace_meter",
+    "hiviewdfx_hilog_native:libhilog",
+  ]
+
+  subsystem_name = "resourceschedule"
+  part_name = "frame_aware_sched"
+}
+
+ohos_shared_library("rtg_interface") {
+  sources = [ "rtg_interface.cpp" ]
+
+  cflags = [ "-Wno-shift-negative-value" ]
+
+  include_dirs = [
+    "${frame_aware_path}/common/include",
+    "//third_party/bounds_checking_function/include",
+  ]
+
+  deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
+
+  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
+
+  install_enable = true
+  part_name = "frame_aware_sched"
+}
